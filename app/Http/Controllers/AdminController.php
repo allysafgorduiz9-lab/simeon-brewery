@@ -56,15 +56,16 @@ public function dashboard(Request $request) {
 }
 
     // Toggle Store Status
-    public function toggleStore() {
-        $current = env('STORE_STATUS');
-        $new = ($current === 'open') ? 'closed' : 'open';
-        
-        $path = base_path('.env');
-        file_put_contents($path, str_replace('STORE_STATUS='.$current, 'STORE_STATUS='.$new, file_get_contents($path)));
-        
-        return back();
-    }
+    // Toggle Store
+public function toggleStore() {
+    $current = env('STORE_STATUS');
+    $new = ($current === 'open') ? 'closed' : 'open';
+    
+    $path = base_path('.env');
+    file_put_contents($path, str_replace('STORE_STATUS='.$current, 'STORE_STATUS='.$new, file_get_contents($path)));
+    
+    return redirect('/admin/dashboard');
+}
 
     // Orders Page
     public function orders() {

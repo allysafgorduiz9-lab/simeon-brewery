@@ -70,7 +70,7 @@
                 <h2 class="text-xl font-bold text-coffee-900">Admin Panel</h2>
                 
                 <!-- Store Status Toggle -->
-<form action="/toggle-store" method="POST">
+<form action="/admin/store-toggle" method="POST">
     @csrf
     <button type="submit" class="px-6 py-2 rounded-full font-bold text-white 
         {{ env('STORE_STATUS') == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
