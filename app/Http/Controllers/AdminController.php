@@ -11,42 +11,48 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     // Login Page
-    public function login() {
-        return view('admin.login');
-    }
+   // Login Page
+public function login() {
+    return view('admin.login');
+}
 
-    // Login Check
-    // Dashboard - Handles both GET (check session) and POST (login)
-public function dashboard(Request $request) {
-    // Check if this is a GET request (already logged in)
-    if ($request->isMethod('get')) {
-        // For now, redirect to login if no session
-        return redirect('/admin');
-    }
-    
-    // This is a POST request - process login
+// Login Submit
+public function loginSubmit(Request $request) {
     $username = $request->username;
     $password = $request->password;
 
     if ($username === 'admin' && $password === 'simeon123') {
-        try {
-            $orders = Order::orderBy('created_at', 'desc')->take(10)->get();
-            $totalSales = Order::where('status', 'Completed')->sum('total_price');
-            $pendingCount = Order::where('status', 'Pending')->count();
-            $completedCount = Order::where('status', 'Completed')->count();
-            
-            return view('admin.dashboard', compact('orders', 'totalSales', 'pendingCount', 'completedCount'));
-        } catch (\Exception $e) {
-            return view('admin.dashboard', [
-                'orders' => collect([]),
-                'totalSales' => 0,
-                'pendingCount' => 0,
-                'completedCount' => 0
-            ]);
-        }
+        // Session to keep user logged in
+        session(['admin_logged_in' => true]);
+        
+        return redirect('/admin/dashboard');
     }
     
     return redirect('/admin')->with('error', 'Invalid credentials');
+}
+
+// Dashboard (GET - after login)
+public function dashboard(Request $request) {
+    // Check if logged in
+    if (!session('admin_logged_in')) {
+        return redirect('/admin');
+    }
+    
+    try {
+        $orders = Order::orderBy('created_at', 'desc')->take(10)->get();
+        $totalSales = Order::where('status', 'Completed')->sum('total_price');
+        $pendingCount = Order::where('status', 'Pending')->count();
+        $completedCount = Order::where('status', 'Completed')->count();
+        
+        return view('admin.dashboard', compact('orders', 'totalSales', 'pendingCount', 'completedCount'));
+    } catch (\Exception $e) {
+        return view('admin.dashboard', [
+            'orders' => collect([]),
+            'totalSales' => 0,
+            'pendingCount' => 0,
+            'completedCount' => 0
+        ]);
+    }
 }
 
     // Toggle Store Status

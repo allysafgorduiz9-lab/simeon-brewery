@@ -45,7 +45,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.dashboard') }}" method="POST">
+<form action="{{ route('admin.login.submit') }}" method="POST">
         @csrf
         
         <div class="mb-6">
