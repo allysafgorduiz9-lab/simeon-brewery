@@ -4,43 +4,47 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\AdminController;
 
-// Customer Routes
+// ========================
+// CUSTOMER ROUTES
+// ========================
 Route::get('/', [FrontEndController::class, 'index'])->name('home');
 Route::get('/menu', [FrontEndController::class, 'menu'])->name('menu');
 Route::post('/add-cart', [FrontEndController::class, 'addToCart'])->name('addCart');
 Route::get('/cart', [FrontEndController::class, 'cart'])->name('cart');
 Route::post('/checkout', [FrontEndController::class, 'placeOrder'])->name('placeOrder');
 
-// Admin Login Page
-Route::get('/admin', [AdminController::class, 'login'])->name('admin.login');
+// ========================
+// ADMIN ROUTES
+// ========================
 
-// Admin Login Submit
+// Login
+Route::get('/admin', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admin.login.submit');
 
-// Admin Dashboard (GET after login)
+// Dashboard
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-// Admin Toggle Store
-Route::match(['get', 'post'], '/admin/toggle-store', [AdminController::class, 'toggleStore'])->name('admin.toggle');
+// Toggle Store Status
+Route::post('/toggle-store', [AdminController::class, 'toggleStore'])->name('admin.toggle');
 
-// Admin Orders
+// Orders
 Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
 Route::post('/admin/order/update/{id}', [AdminController::class, 'updateOrder'])->name('admin.order.update');
 
-// Admin Products
+// Products
 Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
 Route::post('/admin/product/add', [AdminController::class, 'addProduct'])->name('admin.product.add');
 Route::post('/admin/product/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');
 Route::post('/admin/product/toggle/{id}', [AdminController::class, 'toggleProduct'])->name('admin.product.toggle');
 Route::post('/admin/product/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.product.delete');
 
-// Admin Categories
+// Categories
 Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
 Route::post('/admin/category/add', [AdminController::class, 'addCategory'])->name('admin.category.add');
 Route::post('/admin/category/delete/{id}', [AdminController::class, 'deleteCategory'])->name('admin.category.delete');
 
-// Admin Reports
+// Reports
 Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
 
-// Admin Feedbacks
+// Feedbacks
 Route::get('/admin/feedbacks', [AdminController::class, 'feedbacks'])->name('admin.feedbacks');

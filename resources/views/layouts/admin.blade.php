@@ -70,12 +70,10 @@
                 <h2 class="text-xl font-bold text-coffee-900">Admin Panel</h2>
                 
                 <!-- Store Status Toggle -->
-                <!-- Store Status Toggle -->
-<!-- Store Status Button -->
-<form action="{{ route('admin.toggle') }}" method="POST" class="inline">
+<form action="/toggle-store" method="POST">
     @csrf
-    <button type="submit" class="px-6 py-2 rounded-full font-bold text-white transition 
-        {{ env('STORE_STATUS') == 'open' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600' }}">
+    <button type="submit" class="px-6 py-2 rounded-full font-bold text-white 
+        {{ env('STORE_STATUS') == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
         Store: {{ env('STORE_STATUS') == 'open' ? 'OPEN' : 'CLOSED' }}
     </button>
 </form>
