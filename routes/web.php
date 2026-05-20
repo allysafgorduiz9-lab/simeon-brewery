@@ -21,7 +21,7 @@ Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admi
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
 // Admin Toggle Store
-Route::post('/admin/toggle-store', [AdminController::class, 'toggleStore'])->name('admin.toggle');
+Route::match(['get', 'post'], '/admin/toggle-store', [AdminController::class, 'toggleStore'])->name('admin.toggle');
 
 // Admin Orders
 Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
