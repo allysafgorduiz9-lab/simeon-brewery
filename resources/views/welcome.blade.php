@@ -35,15 +35,7 @@
         @endif
 
         <!-- ABOUT CARD (MATCHES MAIN DESIGN) -->
-        <div class="mt-12 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-10 max-w-2xl mx-auto">
-            <h2 class="text-2xl font-bold text-amber-400 mb-3">
-                Our Coffee
-            </h2>
-            <p class="text-gray-300 text-sm md:text-base leading-relaxed">
-                We serve freshly roasted beans sourced from the best local farms.
-                Experience the rich taste of Simeon Brewers.
-            </p>
-        </div>
+        
 
     </div>
 </div>
