@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+namespace App\Http\Controllers;
 
 class FrontEndController extends Controller
 {
@@ -22,18 +23,24 @@ class FrontEndController extends Controller
     /**
      * Frontend Welcome Landing Page.
      */
-    public function index() 
+    public function index()
     {
-        return view('welcome', ['isOpen' => $this->isStoreOpen()]);
+        // 🛠️ FIX: If it was using 'status' or 'availability', change it to 'stock'
+        // This gets all available products where stock = 1
+        $products = Product::where('stock', 1)->get(); 
+        
+        return view('welcome', compact('products')); // Or whichever view your homepage uses
     }
 
     /**
-     * Display Menu Categories and Available Products.
+     * Display the Customer Menu Page
      */
-    public function menu() 
+    public function menu()
     {
-        $categories = Category::with('products')->get();
-        return view('customer.menu', compact('categories'));
+        // 🛠️ FIX: Update this query to look for 'stock' as well!
+        $products = Product::where('stock', 1)->get();
+
+        return view('menu', compact('products')); // Or customer.menu depending on your folder layout
     }
 
     /**
