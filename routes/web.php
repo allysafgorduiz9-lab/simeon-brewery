@@ -137,3 +137,5 @@ Route::post('/admin/product/add', [ProductController::class, 'store'])->name('ad
 Route::post('/admin/product/delete/{id}', [ProductController::class, 'destroy'])->name('admin.product.delete');
 Route::post('/admin/product/toggle/{id}', [ProductController::class, 'toggle'])->name('admin.product.toggle');
 Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])->name('admin.product.update');
+
+Route::post('/admin/product/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('admin.product.update');
