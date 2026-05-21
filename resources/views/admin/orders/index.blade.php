@@ -95,11 +95,10 @@
                         
                         <td class="text-muted small px-4 text-right style-td-last" style="font-size: 0.8rem; white-space: nowrap; font-weight: 500;">
                             <div class="text-dark font-weight-semibold" style="font-weight: 700; color: #1a202c;">
-                                <i class="far fa-clock text-muted mr-1" style="font-size: 0.75rem;"></i> 
-                                {{ $order->created_at->diffForHumans() }}
+                                {{ $order->created_at->timezone('Asia/Manila')->format('M d, Y') }}
                             </div>
-                            <div class="text-muted small font-mono" style="font-size: 0.7rem; margin-top: 2px; color: #a0aec0;">
-                                {{ $order->created_at->format('h:i A') }}
+                            <div class="text-muted small font-mono" style="font-size: 0.72rem; margin-top: 2px; color: #718096; font-weight: bold;">
+                                {{ $order->created_at->timezone('Asia/Manila')->format('h:i A') }}
                             </div>
                         </td>
                     </tr>
