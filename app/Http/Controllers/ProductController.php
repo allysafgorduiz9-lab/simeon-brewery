@@ -60,4 +60,34 @@ public function store(Request $request)
 
     return redirect()->back()->with('success', 'Product updated successfully!');
 }
+public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max=255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min=0',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // Handle Image Upload if a fresh file was chosen
+        if ($request->hasFile('image')) {
+            // Delete old file if it exists to clean disk space
+            if ($product->image_path) {
+                Storage::disk('public')->delete($product->image_path);
+            }
+            $product->image_path = $request->file('image')->store('products', 'public');
+        }
+
+        // Save core text and numeric data attributes
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+        $product->save();
+
+        return redirect()->back()->with('success', 'Product updated cleanly!');
+    }
 }
