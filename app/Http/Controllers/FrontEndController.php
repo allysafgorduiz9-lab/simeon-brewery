@@ -36,22 +36,18 @@ class FrontEndController extends Controller
      */
     public function menu()
 {
-    // 1. Fetch your menu categories and items normally
+    // 1. Fetch categories and items
     $categories = \App\Models\Category::with(['products' => function($query) {
         $query->where('stock', 1);
     }])->get();
 
-    // 2. 🛠️ FETCH YOUR ADMIN TOGGLE STATUS
-    // (Adjust the table name 'store_settings' or column if yours is named differently!)
-// 🛠️ ADD THIS TEMPORARY LINE:
-dd(\Schema::getColumnListing('settings'));
+    // 2. 🛠️ DYNAMIC LOOKUP: Fetch the single status value directly from your column
+    $storeStatus = \DB::table('settings')->value('store_status') ?? 'open';
 
-// Your line 46 sits right below it:
-$storeStatus = \DB::table('settings')->where('key', 'store_status')->value('value') ?? 'open';
-    // Create a simple true/false check
-    $isStoreOpen = ($storeStatus === 'open');
+    // 3. Evaluate the status (works whether your admin button saves words or numbers!)
+    $isStoreOpen = ($storeStatus === 'open' || $storeStatus == 1 || $storeStatus === '1');
 
-    // 3. Send $isStoreOpen down to the view template layout
+    // 4. Pass the status variable securely down to your view template layout
     return view('customer.menu', compact('categories', 'isStoreOpen'));
 }
     /**
