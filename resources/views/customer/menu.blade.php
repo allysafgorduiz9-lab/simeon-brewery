@@ -1,15 +1,3 @@
-@foreach($categories as $category)
-    ...
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        @foreach($categories as $category)  ```
-
-You accidentally pasted a `@foreach($categories as $category)` *inside* an existing `@foreach($categories as $category)`. Because of this double nesting, the HTML syntax got entirely mangled, breaking your containers and components. 
-
-When the store was closed, the syntax layout happened to collapse invisibly, but when you opened it, the inner structural errors completely hid your menu loops.
-
-Here is your cleaned up, perfectly aligned **`menu.blade.php`** file with that accidental duplicate loop completely removed:
-
-```html
 @extends('layouts.main')
 
 @section('content')
