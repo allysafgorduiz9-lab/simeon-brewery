@@ -43,8 +43,7 @@ class FrontEndController extends Controller
 
     // 2. 🛠️ FETCH YOUR ADMIN TOGGLE STATUS
     // (Adjust the table name 'store_settings' or column if yours is named differently!)
-    $storeStatus = \DB::table('store_settings')->where('key', 'store_status')->value('value') ?? 'open';
-    
+  $storeStatus = \DB::table('settings')->where('key', 'store_status')->value('value') ?? 'open';
     // Create a simple true/false check
     $isStoreOpen = ($storeStatus === 'open');
 
