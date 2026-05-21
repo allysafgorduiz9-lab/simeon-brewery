@@ -116,3 +116,4 @@ Route::get('/order-confirmation', function() {
         'method' => request('method')
     ]);
 })->name('order.confirmation');
+Route::patch('/admin/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.update-status');

@@ -8,9 +8,22 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a comprehensive listing of all active and past orders.
-     */
+    use App\Models\Order;
+use Illuminate\Http\Request;
+
+// Inside your OrderController class...
+public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:Pending,Preparing,Completed'
+    ]);
+
+    $order = Order::findOrFail($id);
+    $order->status = $request->status;
+    $order->save();
+
+    return redirect()->back()->with('success', 'Order status updated successfully!');
+}
     public function index()
     {
         // Fetch ALL orders, paginated by 15 items per page so the list doesn't get too long
