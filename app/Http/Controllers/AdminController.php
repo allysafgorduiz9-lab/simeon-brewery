@@ -10,13 +10,11 @@ class AdminController extends Controller
     /**
      * Show the Admin Categories Dashboard
      */
-    public function categories()
+   public function categories()
     {
-        // 🛠️ Fetch your categories from the database. 
-        // If you don't have a Category Model yet, we use raw DB selection to prevent crashes:
-        $categories = DB::table('categories')->get();
+        // 🛠️ FIX: Use the Eloquent model and eager-load ('with') the products relationship count!
+        $categories = Category::with('products')->get();
 
-        // Looks for a view file named resources/views/admin/categories.blade.php
         return view('admin.categories', compact('categories'));
     }
 
@@ -29,10 +27,9 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        DB::table('categories')->insert([
-            'name' => $request->name,
-            'created_at' => now(),
-            'updated_at' => now(),
+        // Clean Eloquent Insert
+        Category::create([
+            'name' => $request->name
         ]);
 
         return back()->with('success', 'Category added successfully!');
@@ -43,7 +40,8 @@ class AdminController extends Controller
      */
     public function deleteCategory($id)
     {
-        DB::table('categories')->where('id', $id)->delete();
+        // Clean Eloquent Delete
+        Category::findOrFail($id)->delete();
 
         return back()->with('success', 'Category deleted successfully!');
     }
