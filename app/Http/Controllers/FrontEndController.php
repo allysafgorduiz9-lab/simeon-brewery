@@ -35,12 +35,12 @@ class FrontEndController extends Controller
      * Display the Customer Menu Page
      */
     public function menu()
-    {
-        // Added absolute path \App\Models\ here too
-        $products = \App\Models\Product::where('stock', 1)->get();
+{
+    $products = \App\Models\Product::where('stock', 1)->get();
 
-        return view('menu', compact('products')); 
-    }
+    // 🛠️ THE EXACT FIX: Change 'menu' to 'customer.menu'
+    return view('customer.menu', compact('products')); 
+}
 
     /**
      * Handle adding items to the customer's cart session.
