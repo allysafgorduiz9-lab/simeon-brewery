@@ -42,29 +42,22 @@ public function create()
 
 public function store(Request $request)
 {
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'category_id' => 'required|string', 
-        'price' => 'required|numeric|min:0',
-        'stock' => 'required|boolean', 
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', 
+    // 🚀 Ensure category_id is validated and received from your form dropdown selection
+    $request->validate([
+        'name' => 'required',
+        'price' => 'required|numeric',
+        'category_id' => 'required|integer', // 👈 Captures the numerical choice option
     ]);
 
-    $product = new \App\Models\Product();
-    $product->name = $validated['name'];
-    $product->category_id = $validated['category_id']; 
-    $product->price = $validated['price'];
-    
-    // 🛠️ THE EXACT FIX: Change 'status' to 'stock' to match your clean Workbench table!
-    $product->stock = $validated['stock']; 
+    // Save the new product details into the database
+    \App\Models\Product::create([
+        'name' => $request->name,
+        'price' => $request->price,
+        'description' => $request->description,
+        'category_id' => $request->category_id, // 👈 Saves the chosen category relation ID
+        'stock' => $request->has('stock') ? 1 : 0,
+    ]);
 
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('products', 'public');
-        $product->image = $imagePath;
-    }
-
-    $product->save();
-
-    return redirect()->route('admin.products.index')->with('success', 'Product added successfully!');
+    return redirect()->back()->with('success', 'Product updated successfully!');
 }
 }
