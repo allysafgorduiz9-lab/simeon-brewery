@@ -25,7 +25,7 @@
 
 @php
     $setting = \App\Models\Setting::first();
-    $storeStatus = $setting ? $setting->store_status : 'open';
+    $storeStatus = optional($setting)->store_status ?? 'open';
 @endphp
 
 <!-- Navigation -->
@@ -49,7 +49,7 @@
                 </svg>
             </a>
 
-            <!-- Cart / Order Button -->
+            <!-- Cart Button -->
             @if($storeStatus == 'open')
                 <a href="/cart"
                    class="bg-yellow-600 px-4 py-2 rounded font-bold hover:bg-yellow-700 transition">
