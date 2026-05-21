@@ -64,9 +64,9 @@
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-2">
                             <button type="button" 
-        onclick="openEditModal({{ $product->id }}, '{{ addslashes($product->name) }}', '{{ addslashes($product->description) }}', {{ $product->price }}, {{ $product->category_id }}, '{{ $product->image_path ?? '' }}')" 
-        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-bold transition">
-    ✏️ Edit
+        onclick="openEditModal({{ $product->id }}, '{{ addslashes($product->name) }}', '{{ addslashes($product->description) }}', {{ $product->price }}, {{ $product->category_id ?? 'null' }}, '{{ $product->image_path ?? '' }}')" 
+        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+    Edit
 </button>
                             <form action="{{ route('admin.product.delete', $product->id) }}" method="POST" onsubmit="return confirm('Delete this product?');">
                                 @csrf
@@ -143,19 +143,25 @@
 </div>
 
 <script>
+<script>
 function openEditModal(id, name, description, price, category_id, imagePath) {
-    // This is where we turn the blank form into an "Edit Form"
+    // Fill the hidden inputs inside your modal with the product's data
     document.getElementById('editName').value = name;
     document.getElementById('editDescription').value = description;
     document.getElementById('editPrice').value = price;
     document.getElementById('editCategory').value = category_id;
     
-    // Update the form URL so it points to the specific product ID
+    // Change the form action to point to the correct update route
     document.getElementById('editForm').action = '/admin/product/update/' + id;
     
-    // Make the modal visible
+    // Show the modal
     document.getElementById('editModal').classList.remove('hidden');
 }
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.add('hidden');
+}
+</script>
 
 function closeEditModal() {
     document.getElementById('editModal').classList.add('hidden');
