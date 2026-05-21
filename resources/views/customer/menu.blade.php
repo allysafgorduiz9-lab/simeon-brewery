@@ -7,22 +7,7 @@
         <div class="text-center mb-16">
             <span class="text-xs font-bold uppercase tracking-widest text-amber-600 block mb-2">Artisan Batches</span>
             <h1 class="text-3xl md:text-5xl font-black text-coffee-900 tracking-tight">Our Menu</h1>
-            <div class="mt-4">
-    @if($isStoreOpen)
-        <form action="{{ route('addCart') }}" method="POST">
-    @csrf
-    <input type="hidden" name="product_id" value="{{ $product->id }}">
-    <button type="submit" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">
-        Add to Cart
-    </button>
-</form>
-    @else
-        <button type="button" disabled class="w-full bg-stone-300 text-stone-500 font-bold py-2 px-4 rounded-lg text-sm cursor-not-allowed text-center">
-            🚫 Ordering Temporarily Closed
-        </button>
-        <p class="text-[11px] text-stone-400 text-center mt-1">The store is not accepting orders at this time.</p>
-    @endif
-</div>
+        </div>
 
         @foreach($categories as $category)
             <div class="mb-16">
@@ -36,24 +21,24 @@
                         
                         <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-coffee-200/60 flex flex-col transition-all duration-300 {{ $product->stock ? 'hover:shadow-md hover:-translate-y-1' : 'opacity-60 grayscale bg-zinc-50' }}">
 
-                           <div class="h-44 bg-stone-100 flex items-center justify-center relative overflow-hidden">
-    @if($product->image)
-        <img src="{{ asset('storage/' . $product->image) }}" 
-             alt="{{ $product->name }}" 
-             class="w-full h-full object-cover">
-    @else
-        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-coffee-700 text-xl font-bold">
-            ☕
-        </div>
-    @endif
+                            <div class="h-44 bg-stone-100 flex items-center justify-center relative overflow-hidden">
+                                @if($product->image)
+                                    <img src="{{ asset('storage/' . $product->image) }}" 
+                                         alt="{{ $product->name }}" 
+                                         class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-coffee-700 text-xl font-bold">
+                                        ☕
+                                    </div>
+                                @endif
 
-    @if(!$product->stock)
-        <div class="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[1px]">
-            <span class="bg-rose-600 text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider shadow-md">Sold Out</span>
-        </div>
-    @endif
-</div>
-                             
+                                @if(!$product->stock)
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[1px]">
+                                        <span class="bg-rose-600 text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider shadow-md">Sold Out</span>
+                                    </div>
+                                @endif
+                            </div>
+                               
                             <div class="p-6 flex flex-col flex-grow">
                                 <div class="flex justify-between items-start mb-2 gap-2">
                                     <h3 class="font-bold text-lg text-coffee-900 tracking-tight leading-tight">{{ $product->name }}</h3>
@@ -69,20 +54,26 @@
                                     {{ $product->description }}
                                 </p>
                                 
-                                <form action="{{ route('addCart') }}" method="POST" class="mt-auto">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $product->id }}">
-                                    
-                                    @if($product->stock)
-                                        <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm py-2.5 px-4 rounded-xl transition duration-200 shadow-sm">
-                                            Add to Cart
-                                        </button>
-                                    @else
+                                <div class="mt-auto">
+                                    @if(!$product->stock)
                                         <button type="button" disabled class="w-full bg-zinc-300 text-zinc-500 font-bold text-sm py-2.5 px-4 rounded-xl cursor-not-allowed">
                                             Sold Out
                                         </button>
+                                    @elseif(!$isStoreOpen)
+                                        <button type="button" disabled class="w-full bg-stone-200 text-stone-400 font-bold text-sm py-2.5 px-4 rounded-xl cursor-not-allowed text-center">
+                                            🚫 Store Closed
+                                        </button>
+                                        <p class="text-[10px] text-stone-400 text-center mt-1">Ordering temporarily unavailable</p>
+                                    @else
+                                        <form action="{{ route('addCart') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm py-2.5 px-4 rounded-xl transition duration-200 shadow-sm">
+                                                Add to Cart
+                                            </button>
+                                        </form>
                                     @endif
-                                </form>
+                                </div>
                             </div>
 
                         </div>
