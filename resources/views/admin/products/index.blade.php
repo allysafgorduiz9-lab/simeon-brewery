@@ -86,7 +86,8 @@
                         <td>
                             <span class="badge px-2.5 py-1.5 rounded-md text-dark font-weight-semibold" 
                                   style="font-size: 0.78rem; background-color: #f1f5f9; border: 1px solid #e2e8f0; font-weight: 600;">
-                                <i class="fas fa-tag mr-1 text-muted small"></i> {{ $product->category ?? 'Beverages' }}
+                                <i class="fas fa-tag mr-1 text-muted small"></i> 
+                                {{ is_object($product->category) ? ($product->category->name ?? 'Beverages') : ($product->category ?? 'Beverages') }}
                             </span>
                         </td>
                         
@@ -111,16 +112,16 @@
                         
                         <td class="text-center px-4 style-td-last">
                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-light border text-dark font-weight-semibold px-3 py-1.5 shadow-2xs transition-all" 
-                                        style="font-size: 0.8rem; border-radius: 6px; font-weight: 600; background-color: #ffffff; text-decoration: none;">
-                                    <i class="fas fa-edit mr-1 text-muted"></i> Edit
+                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-action-edit text-white font-weight-semibold px-3 py-1.5 shadow-2xs transition-all" 
+                                   style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #8c6d58; border: none; text-decoration: none;">
+                                    <i class="fas fa-edit mr-1"></i> Edit
                                 </a>
                                 
                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-light border text-danger font-weight-semibold px-2.5 py-1.5 transition-all" 
-                                            style="font-size: 0.8rem; border-radius: 6px; font-weight: 600; background-color: #fff5f5; border-color: #fed7d7 !important;">
+                                    <button type="submit" class="btn btn-sm btn-action-delete text-white font-weight-semibold px-2.5 py-1.5 transition-all shadow-2xs" 
+                                            style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #dc2626; border: none;">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
@@ -163,6 +164,25 @@
         transform: translateY(-2px);
         box-shadow: 0 6px 16px rgba(29, 17, 11, 0.06) !important;
         background-color: #fffdfa !important;
+    }
+
+    /* Polished Action Buttons Styling Interaction Modifiers */
+    .btn-action-edit {
+        background-color: #8c6d58 !important;
+        box-shadow: 0 2px 4px rgba(140, 109, 88, 0.2);
+    }
+    .btn-action-edit:hover {
+        background-color: #735643 !important;
+        transform: translateY(-1px);
+    }
+
+    .btn-action-delete {
+        background-color: #dc2626 !important;
+        box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+    }
+    .btn-action-delete:hover {
+        background-color: #b91c1c !important;
+        transform: translateY(-1px);
     }
     
     .font-weight-black { font-weight: 800 !important; }
