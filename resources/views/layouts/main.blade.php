@@ -37,15 +37,11 @@
     $storeStatus = session('store_status', 'open');
 @endphp
 
-@if($storeStatus == 'open')
-    <a href="/cart"
-       class="bg-yellow-600 hover:bg-yellow-700 px-5 py-2 rounded font-bold transition">
-       Cart 🛒
-    </a>
+@if(store_status() == 'open')
+    <button class="bg-yellow-600 px-4 py-2 rounded">Add to Cart</button>
 @else
-    <button
-       class="bg-gray-500 cursor-not-allowed px-5 py-2 rounded font-bold text-white">
-       Store Closed
+    <button disabled class="bg-gray-400 px-4 py-2 rounded cursor-not-allowed">
+        Not Available
     </button>
 @endif
             </div>
@@ -55,12 +51,9 @@
     $storeStatus = session('store_status', 'open');
 @endphp
 
-@if($storeStatus == 'closed')
-<div class="bg-red-600 text-white text-center py-4 shadow-lg">
-    <h2 class="text-2xl font-bold">🚫 STORE IS CURRENTLY CLOSED</h2>
-    <p class="text-sm mt-1">
-        Ordering is temporarily unavailable. Please come back later.
-    </p>
+@if(store_status() == 'closed')
+<div class="bg-red-600 text-white text-center py-3 font-bold">
+    🚫 Ordering is currently closed. Please come back later.
 </div>
 @endif
 
