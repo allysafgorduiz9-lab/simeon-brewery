@@ -5,7 +5,6 @@
     <h1 class="text-2xl font-bold text-coffee-900">Manage Menu</h1>
 </div>
 
-<!-- Add Product Form -->
 <div class="bg-white p-6 rounded-lg shadow mb-6">
     <h2 class="text-lg font-bold mb-4">Add New Product</h2>
     <form action="{{ route('admin.product.add') }}" method="POST" enctype="multipart/form-data" class="flex flex-wrap gap-4">
@@ -29,7 +28,6 @@
     </form>
 </div>
 
-<!-- Products Table -->
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <table class="w-full text-left">
         <thead class="bg-coffee-900 text-white">
@@ -46,14 +44,11 @@
             @foreach($products as $product)
             <tr class="border-b hover:bg-gray-50">
                 <td class="p-4">
-                    @php
-                        $imageUrl = asset('images/' . $product->image_path);
-                        $fileExists = $product->image_path && file_exists(public_path('images/' . $product->image_path));
-                    @endphp
-                    
-                   @if($fileExists)
-    <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded">
-@endif
+                    @if($product->image_path)
+                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-16 h-16 object-cover rounded">
+                    @else
+                        <div class="w-16 h-16 bg-gray-100 rounded flex items-center justify-center text-xl">☕</div>
+                    @endif
                 </td>
                 <td class="p-4 font-bold text-coffee-900">{{ $product->name }}</td>
                 <td class="p-4">{{ $product->category->name ?? 'Uncategorized' }}</td>
@@ -67,12 +62,12 @@
                 </td>
                 <td class="p-4">
                     <div class="flex flex-col gap-2">
-                        <!-- Edit and Delete Row -->
                         <div class="flex gap-2">
-                            <button onclick="openEditModal({{ $product->id }}, '{{ addslashes($product->name) }}', '{{ addslashes($product->description) }}', {{ $product->price }}, {{ $product->category_id }}, '{{ $product->image_path ?? '' }}')" 
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-bold transition flex-1">
-                                ✏️ Edit
-                            </button>
+                            <button type="button" 
+        onclick="openEditModal({{ $product->id }}, '{{ addslashes($product->name) }}', '{{ addslashes($product->description) }}', {{ $product->price }}, {{ $product->category_id ?? 'null' }}, '{{ $product->image_path ?? '' }}')" 
+        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-bold transition flex-1">
+    ✏️ Edit
+</button>
                             <form action="{{ route('admin.product.delete', $product->id) }}" method="POST" onsubmit="return confirm('Delete this product?');">
                                 @csrf
                                 <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm font-bold transition">
@@ -81,7 +76,6 @@
                             </form>
                         </div>
                         
-                        <!-- Toggle Available/Unavailable Button -->
                         <form action="{{ route('admin.product.toggle', $product->id) }}" method="POST">
                             @csrf
                             @if($product->is_available)
@@ -102,7 +96,6 @@
     </table>
 </div>
 
-<!-- Edit Modal -->
 <div id="editModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg">
         <div class="bg-coffee-900 text-white p-6 flex justify-between items-center">
@@ -161,7 +154,7 @@ function openEditModal(id, name, description, price, category_id, imagePath) {
     const noImagePlaceholder = document.getElementById('noImagePlaceholder');
     
     if (imagePath) {
-    imagePreview.src = '/' + imagePath;
+        imagePreview.src = '/storage/' + imagePath;
         imagePreview.classList.remove('hidden');
         noImagePlaceholder.classList.add('hidden');
     } else {
