@@ -26,22 +26,14 @@ Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admi
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
 // Toggle Store Status
+
 Route::post('/admin/store-toggle', function () {
 
-    $path = base_path('.env');
-
-    $current = env('STORE_STATUS', 'open');
+    $current = session('store_status', 'open');
 
     $newStatus = $current == 'open' ? 'closed' : 'open';
 
-    File::put(
-        $path,
-        str_replace(
-            'STORE_STATUS='.$current,
-            'STORE_STATUS='.$newStatus,
-            File::get($path)
-        )
-    );
+    session(['store_status' => $newStatus]);
 
     return back();
 });
