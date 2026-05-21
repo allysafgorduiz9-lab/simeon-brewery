@@ -6,12 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    // 👈 ADD THIS FILLABLE ARRAY FOR SECURITY PASSING:
+    protected $fillable = [
+        'customer_name',
+        'phone',
+        'order_type',
+        'method',
+        'total_price',
+        'status'
+    ];
+
     /**
      * Get the items for the coffee order.
      */
     public function items()
     {
-        // Change this back to OrderItem::class
         return $this->hasMany(OrderItem::class);
     }
 }
