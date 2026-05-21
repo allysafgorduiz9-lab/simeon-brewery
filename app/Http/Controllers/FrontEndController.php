@@ -34,8 +34,8 @@ class FrontEndController extends Controller
      */
     public function menu()
 {
-    // 🚀 FIX: Only pull products where is_available is true (1)
-    $products = \App\Models\Product::where('is_available', 1)->get();
+    // 🚀 FIX: Only pull products that are currently in stock
+    $products = \App\Models\Product::where('stock', '>', 0)->get();
 
     $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
     $storeStatus = strtolower(trim($rawStatus));
