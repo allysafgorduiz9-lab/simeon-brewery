@@ -36,19 +36,20 @@ class FrontEndController extends Controller
      */
     public function menu()
 {
-    // 1. Fetch all live, active menu items from your pristine database table
-    $products = \App\Models\Product::where('stock', 1)->get();
+    // 1. Fetch your menu categories and items normally
+    $categories = \App\Models\Category::with(['products' => function($query) {
+        $query->where('stock', 1);
+    }])->get();
 
-    // 2. Dynamically group products by their category text string to form the $categories collection
-    $categories = $products->groupBy('category_id')->map(function ($items, $categoryName) {
-        return (object) [
-            'name' => $categoryName, // The header title (e.g., "Coffee-Based")
-            'products' => $items     // The collection of drinks matching this line
-        ];
-    });
+    // 2. 🛠️ FETCH YOUR ADMIN TOGGLE STATUS
+    // (Adjust the table name 'store_settings' or column if yours is named differently!)
+    $storeStatus = \DB::table('store_settings')->where('key', 'store_status')->value('value') ?? 'open';
+    
+    // Create a simple true/false check
+    $isStoreOpen = ($storeStatus === 'open');
 
-    // 3. Send both arrays down to your customer view file layout smoothly!
-    return view('customer.menu', compact('products', 'categories')); 
+    // 3. Send $isStoreOpen down to the view template layout
+    return view('customer.menu', compact('categories', 'isStoreOpen'));
 }
     /**
      * Handle adding items to the customer's cart session.
