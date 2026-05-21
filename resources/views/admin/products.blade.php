@@ -64,7 +64,7 @@
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-2">
                             <button type="button" 
-        onclick="openEditModal({{ $product->id }}, '{{ addslashes($product->name) }}', '{{ addslashes($product->description) }}', {{ $product->price }}, {{ $product->category_id ?? 'null' }}, '{{ $product->image_path ?? '' }}')" 
+        onclick="openEditModal({{ $product->id }}, '{{ addslashes($product->name) }}', '{{ addslashes($product->description) }}', {{ $product->price }}, {{ $product->category_id }}, '{{ $product->image_path ?? '' }}')" 
         class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-bold transition flex-1">
     ✏️ Edit
 </button>
