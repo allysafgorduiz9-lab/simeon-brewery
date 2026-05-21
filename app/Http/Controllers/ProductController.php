@@ -43,23 +43,19 @@ public function store(Request $request)
 {
     $validated = $request->validate([
         'name' => 'required|string|max:255',
-        'category_id' => 'required', 
+        'category_id' => 'required|string', 
         'price' => 'required|numeric|min:0',
-        'stock' => 'required|boolean', // This keeps track of the form input data
+        'stock' => 'required|boolean', 
         'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', 
     ]);
 
-    $product = new Product();
+    $product = new \App\Models\Product();
     $product->name = $validated['name'];
     $product->category_id = $validated['category_id']; 
     $product->price = $validated['price'];
     
-    // 🛠️ FIX: Change this to match your real database column name!
-    // If your column is named 'status', use this:
-    $product->status = $validated['stock']; 
-    
-    // NOTE: If your column is named 'availability', change it instead to:
-    // $product->availability = $validated['stock'];
+    // 🛠️ THE EXACT FIX: Change 'status' to 'stock' to match your clean Workbench table!
+    $product->stock = $validated['stock']; 
 
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('products', 'public');
