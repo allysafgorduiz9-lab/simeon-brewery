@@ -19,7 +19,7 @@ class AdminController extends Controller
     $categories = \App\Models\Category::with('products')->get();
     
     // 🛠️ ADD THIS TEMPORARY LINE:
-    dd($categories->toArray());
+   clonole(dd($categories));
 
     return view('admin.categories', compact('categories'));
 }
