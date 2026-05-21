@@ -15,15 +15,11 @@ class AdminController extends Controller
      */
     public function categories()
 {
-    // Fetch categories with products
+    // Fetch categories with products correctly using Eloquent relationships
     $categories = \App\Models\Category::with('products')->get();
-    
-    // 🛠️ ADD THIS TEMPORARY LINE:
-   clonole(dd($categories));
 
     return view('admin.categories', compact('categories'));
 }
-
     /**
      * Add a New Category
      */
