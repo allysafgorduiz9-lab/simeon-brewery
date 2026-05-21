@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Models\Order;
+use App\Models\OrderItem;
 
 // ========================
 // CUSTOMER ROUTES
@@ -72,3 +74,32 @@ Route::get('/admin/feedbacks', [AdminController::class, 'feedbacks'])->name('adm
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('removeCart');
 
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+Route::get('/setup-test-order', function () {
+    // Create a dummy order
+    $order = Order::create([
+        'customer_name' => 'Juan Dela Cruz',
+        'phone' => '09123456789',
+        'order_type' => 'pickup',
+        'method' => 'GCash',
+        'total_price' => 270.00,
+        'status' => 'Pending'
+    ]);
+
+    // Attach items to that order
+    OrderItem::create([
+        'order_id' => $order->id,
+        'product_name' => 'Iced Spanish Latte',
+        'quantity' => 1,
+        'price' => 140.00
+    ]);
+
+    OrderItem::create([
+        'order_id' => $order->id,
+        'product_name' => 'Dark Mocha Frappe',
+        'quantity' => 1,
+        'price' => 130.00
+    ]);
+
+    return "Test coffee order created successfully! Go check your dashboard.";
+});
