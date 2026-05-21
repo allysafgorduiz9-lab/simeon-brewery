@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    // Allows mass-assignment if you use it later
     protected $fillable = ['name'];
 
     /**
@@ -15,7 +14,7 @@ class Category extends Model
      */
     public function products(): HasMany
     {
-        // 🛠️ Links this category directly to your Product model!
-        return $this->hasMany(Product::class);
+        // 🛠️ The second argument tells Laravel exactly which column connects them!
+        return $this->hasMany(Product::class, 'category_id');
     }
 }

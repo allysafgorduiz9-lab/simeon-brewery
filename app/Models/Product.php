@@ -9,8 +9,9 @@ class Product extends Model
 {
     protected $fillable = ['category_id', 'name', 'description', 'price', 'image_path', 'is_available'];
 
-    public function category(): BelongsTo
+   public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        // 🛠️ This links the product back upward to the parent category name
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
