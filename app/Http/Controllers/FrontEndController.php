@@ -35,23 +35,20 @@ class FrontEndController extends Controller
      * Display the Customer Menu Page
      */
  public function menu()
-    {
-        // 🛠️ STEP 1: ALWAYS fetch the categories and products first!
-        // This must happen completely outside of any store-status checks so it never gets skipped.
-        $categories = Category::with(['products' => function($query) {
-            $query->where('stock', 1); // Only fetch items that are in stock
-        }])->get();
+{
+    // 🛠️ FIX: Added the exact path to your Category model
+    $categories = \App\Models\Category::with(['products' => function($query) {
+        $query->where('stock', 1); // Only fetch items that are in stock
+    }])->get();
 
-        // 🛠️ STEP 2: Fetch your store status from the settings table
-        $rawStatus = DB::table('settings')->value('store_status') ?? 'open';
-        
-        // Convert to lowercase to perfectly catch "Open", "OPEN", "open", or 1 safely
-        $storeStatus = strtolower(trim($rawStatus));
-        $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
+    // The rest of your code remains exactly the same...
+    $rawStatus = DB::table('settings')->value('store_status') ?? 'open';
+    
+    $storeStatus = strtolower(trim($rawStatus));
+    $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
 
-        // 🛠️ STEP 3: Pass BOTH variables safely down to your view layout template
-        return view('customer.menu', compact('categories', 'isStoreOpen'));
-    }
+    return view('customer.menu', compact('categories', 'isStoreOpen'));
+}
     /**
      * Handle adding items to the customer's cart session.
      */
