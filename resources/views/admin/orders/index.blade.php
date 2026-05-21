@@ -9,7 +9,7 @@
             <p class="text-muted small mb-0 font-weight-medium">All Orders Queue Management</p>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-dark text-white px-3 py-2 rounded-pill font-weight-bold" style="font-size: 0.85rem; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+            <span class="badge border border-secondary text-dark px-3 py-2 rounded-pill font-weight-bold" style="font-size: 0.85rem; background-color: #f8f9fa; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
                 Total: {{ $orders->total() }} Orders
             </span>
         </div>
@@ -80,11 +80,12 @@
                                         @csrf
                                         @method('PATCH')
                                         <select name="status" onchange="this.form.submit()" 
-                                            class="form-select form-select-sm font-weight-bold text-center rounded-pill border-0 px-3 py-2 cursor-pointer shadow-sm text-white transition-all
-                                            {{ $order->status === 'Pending' ? 'bg-secondary' : '' }}
-                                            {{ $order->status === 'Preparing' ? 'bg-primary' : '' }}
-                                            {{ $order->status === 'Completed' ? 'bg-success' : '' }}"
-                                            style="font-size: 0.8rem; letter-spacing: 0.3px; min-width: 140px; background-position: right 12px center; box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;">
+                                            class="form-select form-select-sm font-weight-bold text-center rounded-pill border-0 px-3 py-2 cursor-pointer shadow-sm text-white transition-all"
+                                            style="font-size: 0.8rem; letter-spacing: 0.3px; min-width: 140px; background-position: right 12px center; box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+                                            @if($order->status === 'Pending') background-color: #d97706 !important;
+                                            @elseif($order->status === 'Preparing') background-color: #2563eb !important;
+                                            @elseif($order->status === 'Completed') background-color: #059669 !important;
+                                            @else background-color: #6b7280 !important; @endif">
                                             <option value="Pending" {{ $order->status === 'Pending' ? 'selected' : '' }}>⏳ Pending</option>
                                             <option value="Preparing" {{ $order->status === 'Preparing' ? 'selected' : '' }}>☕ Preparing</option>
                                             <option value="Completed" {{ $order->status === 'Completed' ? 'selected' : '' }}>✅ Completed</option>
@@ -94,7 +95,7 @@
                                 
                                 <td class="text-muted small px-4 text-right" style="font-size: 0.8rem; white-space: nowrap;">
                                     {{ $order->created_at->format('M d, Y') }}
-                                    <div class="text-muted text-[10px] style='font-size: 0.7rem;'">{{ $order->created_at->format('h:i A') }}</div>
+                                    <div class="text-muted text-[10px]" style="font-size: 0.7rem;">{{ $order->created_at->format('h:i A') }}</div>
                                 </td>
                             </tr>
                         @empty
