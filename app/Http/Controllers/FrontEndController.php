@@ -36,17 +36,19 @@ class FrontEndController extends Controller
      */
  public function menu()
 {
-    // 🛠️ FIX: Added the exact path to your Category model
+    // 1. Fetch categories and items safely using full namespace
     $categories = \App\Models\Category::with(['products' => function($query) {
-        $query->where('stock', 1); // Only fetch items that are in stock
+        $query->where('stock', 1); 
     }])->get();
 
-    // The rest of your code remains exactly the same...
-    $rawStatus = DB::table('settings')->value('store_status') ?? 'open';
+    // 2. Fetch status safely using global root DB facade
+    $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
     
+    // 3. Normalize string values
     $storeStatus = strtolower(trim($rawStatus));
     $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
 
+    // 4. Render view layout seamlessly
     return view('customer.menu', compact('categories', 'isStoreOpen'));
 }
     /**
