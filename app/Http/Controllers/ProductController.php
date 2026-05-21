@@ -32,11 +32,12 @@ class ProductController extends Controller
  */
 public function create()
 {
-    // If you have a separate categories table, grab them to show in a dropdown:
-    // $categories = Category::all();
-    // return view('admin.products.create', compact('categories'));
+    // 1. Fetch all available categories from your database
+    $categories = \App\Models\Category::all();
 
-    return view('admin.products.create');
+    // 2. Pass them directly down to your product creation form layout
+    // (Change 'admin.products.create' to match your actual view folder path if different)
+    return view('admin.products.create', compact('categories'));
 }
 
 public function store(Request $request)
