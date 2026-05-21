@@ -20,8 +20,10 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($category->products as $product)
-                        <div class="bg-white rounded-2xl shadow-sm border border-coffee-200/60 overflow-hidden transition-all duration-300 flex flex-col {{ $product->is_available ? 'hover:shadow-md hover:-translate-y-1' : 'opacity-60 grayscale bg-zinc-50' }}">
-                            
+                        <div class="bg-white rounded-2xl... {{ $product->is_available ? 'hover:shadow-md' : 'opacity-60 grayscale' }}">
+
+<div class="bg-white rounded-2xl... {{ $product->stock ? 'hover:shadow-md' : 'opacity-60 grayscale' }}">
+
                             <div class="h-44 bg-gradient-to-br from-coffee-200/50 to-coffee-300/30 flex items-center justify-center relative">
                                 <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-coffee-700 text-xl font-bold">
                                     ☕
@@ -52,15 +54,16 @@
                                     <input type="hidden" name="id" value="{{ $product->id }}">
                                     
                                     @if($product->is_available)
-                                        <button type="submit" class="w-full bg-coffee-700 hover:bg-coffee-800 text-white py-2.5 px-4 rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 shadow-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-                                            Add to Cart
-                                        </button>
-                                    @else
-                                        <button type="button" disabled class="w-full bg-zinc-200 text-zinc-400 py-2.5 px-4 rounded-xl font-bold text-sm cursor-not-allowed text-center">
-                                            Unavailable
-                                        </button>
-                                    @endif
+    <button>Add to Cart</button>
+@else
+    <span>Sold Out</span>
+@endif
+
+@if($product->stock)
+    <button>Add to Cart</button>
+@else
+    <span>Sold Out</span>
+@endif
                                 </form>
                             </div>
 
