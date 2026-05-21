@@ -36,10 +36,8 @@ class FrontEndController extends Controller
      */
  public function menu()
 {
-    // 1. Fetch categories and items safely using full namespace
-    $categories = \App\Models\Category::with(['products' => function($query) {
-        $query->where('stock', 1); 
-    }])->get();
+    // 1. ☕ FIX: Fetch ALL products under their categories (don't limit stock strictly to 1)
+    $categories = \App\Models\Category::with('products')->get();
 
     // 2. Fetch status safely using global root DB facade
     $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
