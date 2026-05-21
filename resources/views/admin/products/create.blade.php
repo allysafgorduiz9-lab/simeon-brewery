@@ -33,9 +33,11 @@
                         <div class="row">
                             <div class="col-12 col-md-6 mb-4">
                                 <label class="form-label text-dark font-weight-bold mb-1" style="font-weight: 700; font-size: 0.9rem;">Category</label>
-                                <select name="category_id">
+
+<select name="category_id" class="form-control form-select">
+    <option value="" selected disabled>-- Select a Category --</option>
     @foreach($categories as $category)
-        <option value="{{ $category->name }}">{{ $category->name }}</option>
+        <option value="{{ $category->id }}">{{ $category->name }}</option>
     @endforeach
 </select>
 
