@@ -8,7 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 class FrontEndController extends Controller
 {
@@ -25,42 +25,38 @@ class FrontEndController extends Controller
      */
     public function index()
     {
-        // Added absolute path \App\Models\ to bypass namespace issues
         $products = \App\Models\Product::where('stock', 1)->get(); 
-        
         return view('welcome', compact('products'));
     }
 
     /**
-     * Display the Customer Menu Page
+     * Display the Customer Menu Page.
      */
- public function menu()
-{
-    // 🛠️ FETCH ALL CATEGORIES AND ALL PRODUCTS UNCONDITIONAL
-    $categories = \App\Models\Category::with('products')->get();
+    public function menu()
+    {
+        // 1. Fetch all categories and their products with absolutely no hidden filters
+        $categories = \App\Models\Category::with('products')->get();
 
-    // Fetch store operating switch status
-    $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
-    $storeStatus = strtolower(trim($rawStatus));
-    $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
+        // 2. Fetch store status safely from your settings table
+        $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
+        $storeStatus = strtolower(trim($rawStatus));
+        $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
 
-    return view('customer.menu', compact('categories', 'isStoreOpen'));
-}
+        // 3. Render the view passing both essential data streams
+        return view('customer.menu', compact('categories', 'isStoreOpen'));
+    }
+
     /**
      * Handle adding items to the customer's cart session.
      */
-    public function addToCart(\Illuminate\Http\Request $request) 
+    public function addToCart(Request $request) 
     {
-        // Now findOrFail will work flawlessly too because we used the absolute path
-        $product = \App\Models\Product::findOrFail($request->id);
+        // Look for product_id matching the hidden form field value from menu.blade.php
+        $productId = $request->input('product_id') ?? $request->input('id');
+        $product = \App\Models\Product::findOrFail($productId);
         
-        if (!$product->is_available) {
-            return back()->with('error', 'Item Unavailable');
-        }
-
         $cart = Session::get('cart', []);
         
-        // If item already exists in cart, increment quantity instead of rewriting
         if (isset($cart[$product->id])) {
             $cart[$product->id]['quantity']++;
         } else {
@@ -93,23 +89,20 @@ class FrontEndController extends Controller
             return redirect('/menu')->with('error', 'Your shopping cart is empty.');
         }
 
-        // Calculate accurate grand total from active session states
         $total = 0;
         foreach ($cart as $item) { 
             $total += $item['price'] * $item['quantity']; 
         }
         
-        // 1. Create the main parent Order record matching your MySQL Workbench schema names
         $order = Order::create([
             'customer_name' => $request->name,
             'phone'         => $request->phone,
             'order_type'    => $request->order_type ?? 'pickup',
-            'method'        => $request->method, // Matches form naming properties
+            'method'        => $request->method, 
             'total_price'   => $total,
             'status'        => 'Pending'
         ]);
 
-        // 2. Loop through their active cart items and attach them to the Order
         foreach ($cart as $cartItem) {
             OrderItem::create([
                 'order_id'     => $order->id,
@@ -119,14 +112,9 @@ class FrontEndController extends Controller
             ]);
         }
 
-        // Generate stylized format tag reference text (e.g., ORD-23)
         $receiptId = 'ORD-' . $order->id;
-
-        // 3. Clear customer checkout session data paths
         Session::forget('cart');
 
-        // 4. Redirect them to the route handling your GCash-inspired receipt design
-        // Ensure you have a named route inside routes/web.php called 'order.confirmation'
         return redirect()->route('order.confirmation', [
             'receiptId' => $receiptId,
             'name'      => $order->customer_name,
