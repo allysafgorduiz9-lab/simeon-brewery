@@ -22,11 +22,13 @@
     
     <!-- Store Status -->
     <!-- Store Status -->
+<!-- Store Status -->
 <div class="bg-white p-6 rounded-lg shadow">
     <h3 class="text-gray-500 text-sm mb-2">Store Status</h3>
 
     @php
-        $storeStatus = session('store_status', 'open');
+        $setting = \App\Models\Setting::first();
+        $storeStatus = optional($setting)->store_status ?? 'open';
     @endphp
 
     <div class="flex items-center gap-3">
