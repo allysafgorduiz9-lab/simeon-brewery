@@ -64,6 +64,11 @@ Route::post('/admin/product/add', [AdminController::class, 'addProduct'])->name(
 Route::post('/admin/product/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');
 Route::post('/admin/product/toggle/{id}', [AdminController::class, 'toggleProduct'])->name('admin.product.toggle');
 Route::post('/admin/product/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.product.delete');
+// Route to show the "Add New Product" form page
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+
+// Route to handle saving the new product into the database
+Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
 
 // Categories
 Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');

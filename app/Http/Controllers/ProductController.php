@@ -27,4 +27,15 @@ class ProductController extends Controller
         // 2. Pass the $products variable down to your blade view
         return view('admin.products.index', compact('products'));
     }
+    /**
+ * Show the form for creating a new product.
+ */
+public function create()
+{
+    // If you have a separate categories table, grab them to show in a dropdown:
+    // $categories = Category::all();
+    // return view('admin.products.create', compact('categories'));
+
+    return view('admin.products.create');
+}
 }
