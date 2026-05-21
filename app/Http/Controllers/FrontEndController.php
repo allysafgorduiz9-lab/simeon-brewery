@@ -33,19 +33,20 @@ class FrontEndController extends Controller
      * Display the Customer Menu Page.
      */
     public function menu()
-    {
-        // 1. Fetch all categories and their products with absolutely no hidden filters
-        $categories = \App\Models\Category::with('products')->get();
+{
+    // 1. 🚀 FIX: Pull all 4 products directly from the database table unconditionally
+    $products = \App\Models\Product::all();
 
-        // 2. Fetch store status safely from your settings table
-        $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
-        $storeStatus = strtolower(trim($rawStatus));
-        $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
+    // 2. Fetch status safely using global root DB facade
+    $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
+    
+    // 3. Normalize string values
+    $storeStatus = strtolower(trim($rawStatus));
+    $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
 
-        // 3. Render the view passing both essential data streams
-        return view('customer.menu', compact('categories', 'isStoreOpen'));
-    }
-
+    // 4. Render view layout seamlessly, passing $products down
+    return view('customer.menu', compact('products', 'isStoreOpen'));
+}
     /**
      * Handle adding items to the customer's cart session.
      */
