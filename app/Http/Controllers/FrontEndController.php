@@ -34,20 +34,23 @@ class FrontEndController extends Controller
     /**
      * Display the Customer Menu Page
      */
-    public function menu()
+ public function menu()
 {
-    // 1. Fetch categories and items
+    // 1. Fetch categories and items normally
     $categories = \App\Models\Category::with(['products' => function($query) {
         $query->where('stock', 1);
     }])->get();
 
-    // 2. 🛠️ DYNAMIC LOOKUP: Fetch the single status value directly from your column
-    $storeStatus = \DB::table('settings')->value('store_status') ?? 'open';
+    // 2. Fetch the raw status string from your settings table
+    $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
 
-    // 3. Evaluate the status (works whether your admin button saves words or numbers!)
-    $isStoreOpen = ($storeStatus === 'open' || $storeStatus == 1 || $storeStatus === '1');
+    // 3. 💡 THE FIX: Convert to lowercase to catch "Open", "OPEN", or "open" completely safely
+    $storeStatus = strtolower(trim($rawStatus));
 
-    // 4. Pass the status variable securely down to your view template layout
+    // Evaluate true/false
+    $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1' || $storeStatus === 'active');
+
+    // 4. Pass down to the view layout
     return view('customer.menu', compact('categories', 'isStoreOpen'));
 }
     /**
