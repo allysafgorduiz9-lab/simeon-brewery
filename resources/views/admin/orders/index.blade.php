@@ -94,8 +94,13 @@
                         </td>
                         
                         <td class="text-muted small px-4 text-right style-td-last" style="font-size: 0.8rem; white-space: nowrap; font-weight: 500;">
-                            <div class="text-dark font-weight-semibold" style="font-weight: 600; color: #2d3748;">{{ $order->created_at->format('M d, Y') }}</div>
-                            <div class="text-muted small" style="font-size: 0.72rem; margin-top: 1px; color: #718096;">{{ $order->created_at->format('h:i A') }}</div>
+                            <div class="text-dark font-weight-semibold" style="font-weight: 700; color: #1a202c;">
+                                <i class="far fa-clock text-muted mr-1" style="font-size: 0.75rem;"></i> 
+                                {{ $order->created_at->diffForHumans() }}
+                            </div>
+                            <div class="text-muted small font-mono" style="font-size: 0.7rem; margin-top: 2px; color: #a0aec0;">
+                                {{ $order->created_at->format('h:i A') }}
+                            </div>
                         </td>
                     </tr>
                 @empty
@@ -119,21 +124,17 @@
 </div>
 
 <style>
-    /* Gives our layout table header uniform rounded container matching limits */
     .style-th-first { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
     .style-th-last { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
     
-    /* Elegant Custom Card Border curves for individual dataset items loops */
     .style-td-first { border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-left: 1px solid #e2e8f0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
     .style-td-last { border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-right: 1px solid #e2e8f0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
     
-    /* Connect structural outer limits borders to inner properties */
     .order-dashboard-row td:not(.style-td-first):not(.style-td-last) {
         border-top: 1px solid #e2e8f0;
         border-bottom: 1px solid #e2e8f0;
     }
     
-    /* Elevates rows cleanly upon interactive hover states */
     .order-dashboard-row:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 16px rgba(29, 17, 11, 0.06) !important;
