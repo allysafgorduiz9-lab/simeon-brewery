@@ -14,12 +14,15 @@ class AdminController extends Controller
      * Show the Admin Categories Dashboard
      */
     public function categories()
-    {
-        // 🛠️ THE FIX: Add the full absolute path \App\Models\Category
-        $categories = \App\Models\Category::with('products')->get();
+{
+    // Fetch categories with products
+    $categories = \App\Models\Category::with('products')->get();
+    
+    // 🛠️ ADD THIS TEMPORARY LINE:
+    dd($categories->toArray());
 
-        return view('admin.categories', compact('categories'));
-    }
+    return view('admin.categories', compact('categories'));
+}
 
     /**
      * Add a New Category
