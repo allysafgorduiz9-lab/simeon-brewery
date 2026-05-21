@@ -7,9 +7,22 @@
         <div class="text-center mb-16">
             <span class="text-xs font-bold uppercase tracking-widest text-amber-600 block mb-2">Artisan Batches</span>
             <h1 class="text-3xl md:text-5xl font-black text-coffee-900 tracking-tight">Our Menu</h1>
-            <div class="w-12 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
-            <p class="text-gray-500 text-sm mt-3 font-medium">Choose your favorite brew handcrafted to order</p>
-        </div>
+            <div class="mt-4">
+    @if($isStoreOpen)
+        <form action="{{ route('cart.add') }}" method="POST">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <button type="submit" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">
+                Add to Cart
+            </button>
+        </form>
+    @else
+        <button type="button" disabled class="w-full bg-stone-300 text-stone-500 font-bold py-2 px-4 rounded-lg text-sm cursor-not-allowed text-center">
+            🚫 Ordering Temporarily Closed
+        </button>
+        <p class="text-[11px] text-stone-400 text-center mt-1">The store is not accepting orders at this time.</p>
+    @endif
+</div>
 
         @foreach($categories as $category)
             <div class="mb-16">

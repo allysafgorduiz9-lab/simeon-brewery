@@ -30,4 +30,15 @@ class CartController extends Controller
         
         return redirect()->back();
     }
+    public function addToCart(Request $request)
+{
+    // 🛠️ Backend Security Guard
+    $storeStatus = \DB::table('store_settings')->where('key', 'store_status')->value('value') ?? 'open';
+    
+    if ($storeStatus !== 'open') {
+        return back()->with('error', 'Orders are currently closed by the administrator.');
+    }
+
+    // ... your original add to cart logic continues below ...
+}
 }
