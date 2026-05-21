@@ -144,24 +144,16 @@
 
 <script>
 function openEditModal(id, name, description, price, category_id, imagePath) {
+    // This is where we turn the blank form into an "Edit Form"
     document.getElementById('editName').value = name;
     document.getElementById('editDescription').value = description;
     document.getElementById('editPrice').value = price;
     document.getElementById('editCategory').value = category_id;
+    
+    // Update the form URL so it points to the specific product ID
     document.getElementById('editForm').action = '/admin/product/update/' + id;
     
-    const imagePreview = document.getElementById('editImagePreview');
-    const noImagePlaceholder = document.getElementById('noImagePlaceholder');
-    
-    if (imagePath) {
-        imagePreview.src = '/storage/' + imagePath;
-        imagePreview.classList.remove('hidden');
-        noImagePlaceholder.classList.add('hidden');
-    } else {
-        imagePreview.classList.add('hidden');
-        noImagePlaceholder.classList.remove('hidden');
-    }
-    
+    // Make the modal visible
     document.getElementById('editModal').classList.remove('hidden');
 }
 
