@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    // Tells Laravel that an Order has many ordered items connected to it
+    /**
+     * Get the items for the coffee order.
+     */
     public function items()
     {
-        // Change OrderItem::class if your pivot or order details model is named differently
-       return $this->hasMany(OrderDetail::class);
-
+        // Change this back to OrderItem::class
+        return $this->hasMany(OrderItem::class);
     }
 }

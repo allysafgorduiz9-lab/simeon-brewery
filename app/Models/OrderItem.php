@@ -1,10 +1,19 @@
 <?php
 
-namespace App\Models; // 👈 Make sure this line exists!
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class OrderItem extends Model
 {
-    // your existing table/fillable code...
+
+    protected $fillable = ['order_id', 'product_name', 'quantity', 'price'];
+
+    /**
+     * Get the order that owns this item.
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
