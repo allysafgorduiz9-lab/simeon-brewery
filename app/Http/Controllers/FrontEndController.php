@@ -36,17 +36,14 @@ class FrontEndController extends Controller
      */
  public function menu()
 {
-    // 1. ☕ FIX: Fetch ALL products under their categories (don't limit stock strictly to 1)
+    // 🛠️ FETCH ALL CATEGORIES AND ALL PRODUCTS UNCONDITIONAL
     $categories = \App\Models\Category::with('products')->get();
 
-    // 2. Fetch status safely using global root DB facade
+    // Fetch store operating switch status
     $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
-    
-    // 3. Normalize string values
     $storeStatus = strtolower(trim($rawStatus));
     $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
 
-    // 4. Render view layout seamlessly
     return view('customer.menu', compact('categories', 'isStoreOpen'));
 }
     /**
