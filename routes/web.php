@@ -58,7 +58,7 @@ Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orde
 Route::post('/admin/order/update/{id}', [AdminController::class, 'updateOrder'])->name('admin.order.update');
 
 // Products
-Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
+Route::get('/admin/products', [ProductController::class, 'index']);
 Route::post('/admin/product/add', [AdminController::class, 'addProduct'])->name('admin.product.add');
 Route::post('/admin/product/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');
 Route::post('/admin/product/toggle/{id}', [AdminController::class, 'toggleProduct'])->name('admin.product.toggle');
