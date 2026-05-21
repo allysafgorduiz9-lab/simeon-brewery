@@ -17,14 +17,14 @@
     </div>
 
     <div class="row g-3 mb-4">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6">
             <div class="card border-0 shadow-sm p-3" style="border-radius: 14px; background: #ffffff; border-left: 4px solid #1d110b !important;">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted small text-uppercase font-weight-bold mb-1" style="letter-spacing: 0.5px; font-size: 0.72rem;">Total Menu Items</p>
                         <h3 class="font-weight-black text-dark mb-0" style="font-weight: 800;">
-    {{ count($products ?? []) }} Items
-</h3>
+                            {{ count($products ?? []) }} Items
+                        </h3>
                     </div>
                     <div class="p-3 rounded-lg" style="background-color: rgba(29, 17, 11, 0.05); color: #1d110b;">
                         <i class="fas fa-coffee fa-lg"></i>
@@ -32,20 +32,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-4">
-            <div class="card border-0 shadow-sm p-3" style="border-radius: 14px; background: #ffffff; border-left: 4px solid #059669 !important;">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <p class="text-muted small text-uppercase font-weight-bold mb-1" style="letter-spacing: 0.5px; font-size: 0.72rem;">Available Stock</p>
-                        <h3 class="font-weight-black text-dark mb-0" style="font-weight: 800;">In Stock</h3>
-                    </div>
-                    <div class="p-3 rounded-lg" style="background-color: rgba(5, 150, 105, 0.05); color: #059669;">
-                        <i class="fas fa-check-circle fa-lg"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4">
+        
+        <div class="col-12 col-md-6">
             <div class="card border-0 shadow-sm p-3" style="border-radius: 14px; background: #ffffff; border-left: 4px solid #d97706 !important;">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
@@ -64,11 +52,11 @@
         <table class="table align-middle mb-0" style="width: 100%; border-collapse: separate; border-spacing: 0 12px;">
             <thead class="text-white border-0" style="background-color: #1d110b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.8px;">
                 <tr>
-                    <th class="py-3.5 px-4 style-th-first" style="font-weight: 700; width: 90px;">Image</th>
+                    <th class="py-3.5 px-4 style-th-first" style="font-weight: 700; width: 100px;">Image</th>
                     <th class="py-3.5" style="font-weight: 700;">Product Name</th>
                     <th class="py-3.5" style="font-weight: 700;">Category</th>
                     <th class="py-3.5" style="font-weight: 700;">Base Price</th>
-                    <th class="py-3.5 text-center" style="font-weight: 700; width: 140px;">Stock Status</th>
+                    <th class="py-3.5 text-center" style="font-weight: 700; width: 180px;">Menu Status</th>
                     <th class="py-3.5 px-4 style-th-last text-center" style="width: 200px; font-weight: 700;">Actions</th>
                 </tr>
             </thead>
@@ -78,12 +66,15 @@
                     <tr class="product-dashboard-row" style="background-color: #ffffff; box-shadow: 0 2px 12px rgba(0,0,0,0.035); transition: all 0.2s ease;">
                         
                         <td class="px-4 py-3 style-td-first">
-                            <div class="rounded-lg overflow-hidden border border-gray-100 bg-light d-flex align-items-center justify-content-center shadow-2xs" 
-                                 style="width: 48px; height: 48px; border-radius: 8px; background-color: #f8f9fa;">
+                            <div class="rounded-lg overflow-hidden border border-gray-200 bg-light d-flex align-items-center justify-content-center shadow-2xs position-relative" 
+                                 style="width: 56px; height: 56px; border-radius: 10px; background-color: #fcfaf7;">
                                 @if(isset($product->image) && $product->image)
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="Menu Item" style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
-                                    <i class="fas fa-mug-hot text-muted" style="opacity: 0.4; font-size: 1.1rem;"></i>
+                                    <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center" style="background: linear-gradient(135deg, #fdfbf7 0%, #f5efe6 100%);">
+                                        <i class="fas fa-mug-hot" style="color: #8c6d58; opacity: 0.65; font-size: 1.2rem;"></i>
+                                        <span style="font-size: 0.55rem; color: #8c6d58; font-weight: 700; text-transform: uppercase; margin-top: 1px;">Simeon</span>
+                                    </div>
                                 @endif
                             </div>
                         </td>
@@ -103,24 +94,36 @@
                             ₱{{ number_format($product->price ?? 145.00, 2) }}
                         </td>
                         
-                        <td class="text-center">
-                            <span class="badge px-3 py-1.5 rounded-pill font-weight-bold text-xs"
-                                  style="font-weight: 700; letter-spacing: 0.3px;
-                                  {{ (isset($product->stock) && $product->stock <= 0) ? 'background-color: rgba(220, 38, 38, 0.1) !important; color: #dc2626 !important;' : 'background-color: rgba(5, 150, 105, 0.1) !important; color: #059669 !important;' }}">
-                                {{ (isset($product->stock) && $product->stock <= 0) ? '🔴 Out of Stock' : '🟢 Available' }}
-                            </span>
+                        <td class="text-center px-2">
+                            <form action="{{ route('admin.products.update-status', $product->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" onchange="this.form.submit()" 
+                                    class="form-select form-select-sm font-weight-bold text-center rounded-lg border-0 px-3 py-2 cursor-pointer shadow-sm text-white status-interactive-select"
+                                    style="font-size: 0.8rem; letter-spacing: 0.3px; min-width: 150px; background-position: right 12px center; font-weight: 700; border-radius: 8px !important;
+                                    @if(!isset($product->stock) || $product->stock > 0) background-color: #059669 !important; box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2) !important;
+                                    @else background-color: #dc2626 !important; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2) !important; @endif">
+                                    <option value="1" {{ (!isset($product->stock) || $product->stock > 0) ? 'selected' : '' }}>🟢 Available</option>
+                                    <option value="0" {{ (isset($product->stock) && $product->stock <= 0) ? 'selected' : '' }}>🔴 Unavailable</option>
+                                </select>
+                            </form>
                         </td>
                         
                         <td class="text-center px-4 style-td-last">
                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                <button class="btn btn-sm btn-light border text-dark font-weight-semibold px-3 py-1.5 shadow-2xs transition-all" 
-                                        style="font-size: 0.8rem; border-radius: 6px; font-weight: 600; background-color: #ffffff;">
+                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-light border text-dark font-weight-semibold px-3 py-1.5 shadow-2xs transition-all" 
+                                        style="font-size: 0.8rem; border-radius: 6px; font-weight: 600; background-color: #ffffff; text-decoration: none;">
                                     <i class="fas fa-edit mr-1 text-muted"></i> Edit
-                                </button>
-                                <button class="btn btn-sm btn-light border text-danger font-weight-semibold px-2.5 py-1.5 transition-all" 
-                                        style="font-size: 0.8rem; border-radius: 6px; font-weight: 600; background-color: #fff5f5; border-color: #fed7d7 !important;">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                                </a>
+                                
+                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-light border text-danger font-weight-semibold px-2.5 py-1.5 transition-all" 
+                                            style="font-size: 0.8rem; border-radius: 6px; font-weight: 600; background-color: #fff5f5; border-color: #fed7d7 !important;">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -164,5 +167,7 @@
     
     .font-weight-black { font-weight: 800 !important; }
     .hover-brightness:hover { filter: brightness(1.2); }
+    .status-interactive-select { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .status-interactive-select:hover { filter: brightness(1.08); }
 </style>
 @endsection

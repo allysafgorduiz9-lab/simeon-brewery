@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display the manage menu / products page.
-     */
+    public function updateStatus(Request $request, $id)
+{
+    $product = Product::findOrFail($id);
+    
+    // Set stock value to 1 (Available) or 0 (Unavailable) based on selection
+    $product->stock = $request->input('status') == '1' ? 1 : 0;
+    $product->save();
+
+    return redirect()->back()->with('success', 'Product status updated successfully!');
+}
+
+  
     public function index()
     {
         // 1. Fetch all products from your database table
