@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product; // 👈 Make sure your Product model is imported here!
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,8 +12,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // For now, we will just return a simple blank view. 
-        // You can pass your products database data here later!
-        return view('admin.products.index');
+        // 1. Fetch all products from your database table
+        $products = Product::all(); 
+
+        // 2. Pass the $products variable down to your blade view
+        return view('admin.products.index', compact('products'));
     }
 }
