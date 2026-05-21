@@ -21,10 +21,27 @@
     </div>
     
     <!-- Store Status -->
-    <div class="bg-white p-6 rounded-lg shadow">
-        <h3 class="text-gray-500 text-sm">Store Status</h3>
-        <p class="text-2xl font-bold {{ env('STORE_STATUS') == 'open' ? 'text-green-600' : 'text-red-600' }}">
-            {{ env('STORE_STATUS') == 'open' ? 'OPEN' : 'CLOSED' }}
+    <!-- Store Status -->
+<div class="bg-white p-6 rounded-lg shadow">
+    <h3 class="text-gray-500 text-sm mb-2">Store Status</h3>
+
+    @php
+        $storeStatus = session('store_status', 'open');
+    @endphp
+
+    <div class="flex items-center gap-3">
+
+        <!-- Status Dot -->
+        <div class="w-4 h-4 rounded-full 
+            {{ $storeStatus == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
+        </div>
+
+        <!-- Status Text -->
+        <p class="text-2xl font-bold 
+            {{ $storeStatus == 'open' ? 'text-green-600' : 'text-red-600' }}">
+
+            {{ $storeStatus == 'open' ? 'OPEN' : 'CLOSED' }}
+
         </p>
     </div>
 </div>
