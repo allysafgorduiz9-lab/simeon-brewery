@@ -1,48 +1,75 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="bg-stone-50 min-h-screen py-10">
-    <div class="container mx-auto">
-        <h1 class="text-4xl font-bold text-center text-coffee-900 mb-2">Our Menu</h1>
-        <p class="text-center text-gray-500 mb-10">Choose your favorite brew</p>
+<div class="bg-stone-50 min-h-screen py-16">
+    <div class="container mx-auto px-6 max-w-6xl">
+        
+        <div class="text-center mb-16">
+            <span class="text-xs font-bold uppercase tracking-widest text-amber-600 block mb-2">Artisan Batches</span>
+            <h1 class="text-3xl md:text-5xl font-black text-coffee-900 tracking-tight">Our Menu</h1>
+            <div class="w-12 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            <p class="text-gray-500 text-sm mt-3 font-medium">Choose your favorite brew handcrafted to order</p>
+        </div>
 
         @foreach($categories as $category)
-            <div class="mb-12">
-                <h2 class="text-2xl font-bold text-coffee-700 border-l-4 border-yellow-600 pl-4 mb-6">{{ $category->name }}</h2>
+            <div class="mb-16">
+                <div class="flex items-center gap-4 mb-8">
+                    <h2 class="text-xl md:text-2xl font-black text-coffee-700 tracking-wide uppercase">{{ $category->name }}</h2>
+                    <div class="h-px bg-coffee-200 flex-grow"></div>
+                </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($category->products as $product)
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 {{ $product->is_available ? '' : 'opacity-60 grayscale' }}">
-                            <!-- Image Placeholder -->
-                            <div class="h-48 bg-coffee-200 flex items-center justify-center">
-                                <span class="text-4xl">☕</span>
+                        <div class="bg-white rounded-2xl shadow-sm border border-coffee-200/60 overflow-hidden transition-all duration-300 flex flex-col {{ $product->is_available ? 'hover:shadow-md hover:-translate-y-1' : 'opacity-60 grayscale bg-zinc-50' }}">
+                            
+                            <div class="h-44 bg-gradient-to-br from-coffee-200/50 to-coffee-300/30 flex items-center justify-center relative">
+                                <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-coffee-700 text-xl font-bold">
+                                    ☕
+                                </div>
+                                @if(!$product->is_available)
+                                    <div class="absolute inset-0 bg-black/5 flex items-center justify-center">
+                                        <span class="bg-rose-600 text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider shadow">Sold Out</span>
+                                    </div>
+                                @endif
                             </div>
                             
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="font-bold text-xl text-coffee-900">{{ $product->name }}</h3>
-                                    @if(!$product->is_available)
-                                        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full font-bold">Sold Out</span>
+                            <div class="p-6 flex flex-col flex-grow">
+                                <div class="flex justify-between items-start mb-2 gap-2">
+                                    <h3 class="font-bold text-lg text-coffee-900 tracking-tight leading-tight">{{ $product->name }}</h3>
+                                    @if($product->is_available)
+                                        <span class="text-lg font-black text-amber-600 shrink-0">₱{{ number_format($product->price, 2) }}</span>
+                                    @else
+                                        <span class="text-lg font-bold text-zinc-400 shrink-0 line-through">₱{{ number_format($product->price, 2) }}</span>
                                     @endif
                                 </div>
-                                <p class="text-gray-500 text-sm mb-4">{{ $product->description }}</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xl font-bold text-yellow-700">₱{{ number_format($product->price, 2) }}</span>
+                                
+                                <p class="text-gray-500 text-xs md:text-sm leading-relaxed mb-6 flex-grow line-clamp-2">
+                                    {{ $product->description }}
+                                </p>
+                                
+                                <form action="{{ route('addCart') }}" method="POST" class="mt-auto">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $product->id }}">
                                     
-                                    <form action="{{ route('addCart') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $product->id }}">
-                                        <button type="submit" class="bg-coffee-700 hover:bg-coffee-800 text-white px-4 py-2 rounded-lg transition {{ $product->is_available ? '' : 'bg-gray-400 cursor-not-allowed' }}" {{ $product->is_available ? '' : 'disabled' }}>
-                                            {{ $product->is_available ? 'Add to Cart' : 'Unavailable' }}
+                                    @if($product->is_available)
+                                        <button type="submit" class="w-full bg-coffee-700 hover:bg-coffee-800 text-white py-2.5 px-4 rounded-xl font-bold text-sm transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 shadow-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                                            Add to Cart
                                         </button>
-                                    </form>
-                                </div>
+                                    @else
+                                        <button type="button" disabled class="w-full bg-zinc-200 text-zinc-400 py-2.5 px-4 rounded-xl font-bold text-sm cursor-not-allowed text-center">
+                                            Unavailable
+                                        </button>
+                                    @endif
+                                </form>
                             </div>
+
                         </div>
                     @endforeach
                 </div>
             </div>
         @endforeach
+
     </div>
 </div>
 @endsection
