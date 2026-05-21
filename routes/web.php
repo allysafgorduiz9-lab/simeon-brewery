@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Http\Controllers\Admin\OrderController; 
+use App\Http\Controllers\ProductController;
 
 // ========================
 // CUSTOMER ROUTES
