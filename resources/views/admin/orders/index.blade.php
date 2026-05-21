@@ -6,7 +6,6 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h3 mb-1 text-gray-900 font-weight-black" style="font-weight: 800; letter-spacing: -0.75px;">Active Orders Queue</h1>
-            <p class="text-muted small mb-0 font-weight-medium" style="font-size: 0.85rem; letter-spacing: 0.2px;">Real-time workflow tracker for Simeon Cafe</p>
         </div>
         <div>
             <span class="badge border border-gray-200 text-dark px-3 py-2 rounded-lg font-weight-bold" style="font-size: 0.85rem; background-color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.02); font-weight: 700;">
