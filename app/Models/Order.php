@@ -10,7 +10,7 @@ class Order extends Model
     public function items()
     {
         // Change OrderItem::class if your pivot or order details model is named differently
-        return $this->hasMany(OrderItem::class);
+       return $this->hasMany(OrderDetail::class);
 
     }
 }
