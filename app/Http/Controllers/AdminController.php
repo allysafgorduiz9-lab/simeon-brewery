@@ -55,4 +55,16 @@ class AdminController extends Controller
     {
         return view('admin.login');
     }
+
+    public function reports()
+{
+    // Sum up completed checkouts
+    $totalSales = \DB::table('orders')->where('status', 'completed')->sum('total_price');
+    $totalOrders = \DB::table('orders')->count();
+    
+    // Average order size expression
+    $avgOrderValue = $totalOrders > 0 ? ($totalSales / $totalOrders) : 0;
+    
+    return view('admin.reports', compact('totalSales', 'totalOrders', 'avgOrderValue'));
+}
 }
