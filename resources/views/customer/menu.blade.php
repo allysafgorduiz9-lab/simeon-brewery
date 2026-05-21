@@ -9,13 +9,13 @@
             <h1 class="text-3xl md:text-5xl font-black text-coffee-900 tracking-tight">Our Menu</h1>
             <div class="mt-4">
     @if($isStoreOpen)
-        <form action="{{ route('cart.add') }}" method="POST">
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-            <button type="submit" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">
-                Add to Cart
-            </button>
-        </form>
+        <form action="{{ route('addCart') }}" method="POST">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
+    <button type="submit" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition">
+        Add to Cart
+    </button>
+</form>
     @else
         <button type="button" disabled class="w-full bg-stone-300 text-stone-500 font-bold py-2 px-4 rounded-lg text-sm cursor-not-allowed text-center">
             🚫 Ordering Temporarily Closed
