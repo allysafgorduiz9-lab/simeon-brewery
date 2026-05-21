@@ -6,18 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOrdersTable extends Migration
 {
-    public function up()
-    {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('customer_name');
-            $table->string('phone_number');
-            $table->string('payment_method');
-            $table->decimal('total_price', 10, 2);
-            $table->enum('status', ['Pending', 'Preparing', 'Completed', 'Cancelled'])->default('Pending');
-            $table->timestamps();
-        });
-    }
+   public function up(): void
+{
+    Schema::create('orders', function (Blueprint $table) {
+        $table->id();
+        $table->string('customer_name');
+        $table->string('phone');
+        $table->string('order_type')->default('pickup'); // pickup or dinein
+        $table->string('method'); // Cash, GCash, PayMaya
+        $table->text('notes')->nullable();
+        $table->decimal('total_price', 10, 2)->default(0.00);
+        $table->string('status')->default('Pending'); // Pending, Preparing, Completed
+        $table->timestamps();
+    });
+}
 
     public function down()
     {
