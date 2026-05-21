@@ -10,10 +10,13 @@ class AdminController extends Controller
     /**
      * Show the Admin Categories Dashboard
      */
-   public function categories()
+   /**
+     * Show the Admin Categories Dashboard
+     */
+    public function categories()
     {
-        // 🛠️ FIX: Use the Eloquent model and eager-load ('with') the products relationship count!
-        $categories = Category::with('products')->get();
+        // 🛠️ THE FIX: Add the full absolute path \App\Models\Category
+        $categories = \App\Models\Category::with('products')->get();
 
         return view('admin.categories', compact('categories'));
     }
@@ -27,8 +30,8 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        // Clean Eloquent Insert
-        Category::create([
+        // 🛠️ THE FIX: Add the full absolute path here too
+        \App\Models\Category::create([
             'name' => $request->name
         ]);
 
@@ -40,8 +43,8 @@ class AdminController extends Controller
      */
     public function deleteCategory($id)
     {
-        // Clean Eloquent Delete
-        Category::findOrFail($id)->delete();
+        // 🛠️ THE FIX: Add the full absolute path here too
+        \App\Models\Category::findOrFail($id)->delete();
 
         return back()->with('success', 'Category deleted successfully!');
     }
