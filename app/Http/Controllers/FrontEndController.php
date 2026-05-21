@@ -36,12 +36,20 @@ class FrontEndController extends Controller
      */
     public function menu()
 {
+    // 1. Fetch all live, active menu items from your pristine database table
     $products = \App\Models\Product::where('stock', 1)->get();
 
-    // 🛠️ THE EXACT FIX: Change 'menu' to 'customer.menu'
-    return view('customer.menu', compact('products')); 
-}
+    // 2. Dynamically group products by their category text string to form the $categories collection
+    $categories = $products->groupBy('category_id')->map(function ($items, $categoryName) {
+        return (object) [
+            'name' => $categoryName, // The header title (e.g., "Coffee-Based")
+            'products' => $items     // The collection of drinks matching this line
+        ];
+    });
 
+    // 3. Send both arrays down to your customer view file layout smoothly!
+    return view('customer.menu', compact('products', 'categories')); 
+}
     /**
      * Handle adding items to the customer's cart session.
      */
