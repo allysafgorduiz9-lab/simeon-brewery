@@ -22,7 +22,9 @@
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted small text-uppercase font-weight-bold mb-1" style="letter-spacing: 0.5px; font-size: 0.72rem;">Total Menu Items</p>
-                        <h3 class="font-weight-black text-dark mb-0" style="font-weight: 800;">{{ $products->count() ?? '0' }} Items</h3>
+                        <h3 class="font-weight-black text-dark mb-0" style="font-weight: 800;">
+    {{ count($products ?? []) }} Items
+</h3>
                     </div>
                     <div class="p-3 rounded-lg" style="background-color: rgba(29, 17, 11, 0.05); color: #1d110b;">
                         <i class="fas fa-coffee fa-lg"></i>
