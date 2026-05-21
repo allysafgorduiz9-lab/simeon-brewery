@@ -1,75 +1,197 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="max-w-4xl mx-auto py-10">
-    <h1 class="text-3xl font-bold text-coffee-900 mb-8 border-b pb-4">Shopping Cart</h1>
-
-    @if(Session::has('cart') && count(Session::get('cart')) > 0)
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <table class="w-full text-left">
-                <thead class="bg-coffee-800 text-white">
-                    <tr>
-                        <th class="p-4">Item</th>
-                        <th class="p-4">Price</th>
-                        <th class="p-4">Quantity</th>
-                        <th class="p-4">Total</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @php $total = 0; @endphp
-                    @foreach(Session::get('cart') as $id => $item)
-                    <tr>
-                        <td class="p-4 font-bold">{{ $item['name'] }}</td>
-                        <td class="p-4">₱{{ number_format($item['price'], 2) }}</td>
-                        <td class="p-4">{{ $item['quantity'] }}</td>
-                        <td class="p-4 font-bold">₱{{ number_format($item['price'] * $item['quantity'], 2) }}</td>
-                    </tr>
-                    @php $total += $item['price'] * $item['quantity']; @endphp
-                    @endforeach
-                </tbody>
-                <tfoot class="bg-gray-50">
-                    <tr>
-                        <td colspan="3" class="p-4 text-right font-bold">Total:</td>
-                        <td class="p-4 font-bold text-xl text-yellow-700">₱{{ number_format($total, 2) }}</td>
-                    </tr>
-                </tfoot>
-            </table>
+<div class="bg-stone-50 min-h-screen py-12">
+    <div class="container mx-auto px-6 max-w-5xl">
+        
+        <div class="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-coffee-200 pb-6">
+            <div>
+                <h1 class="text-3xl font-black text-coffee-900 tracking-tight">Your Order Basket</h1>
+                <p class="text-gray-500 text-sm mt-1">Review your selection before finalizing your order</p>
+            </div>
+            <a href="/menu" class="text-sm font-bold text-amber-600 hover:text-amber-700 transition flex items-center gap-1.5 group self-start sm:self-auto">
+                <span class="group-hover:-translate-x-0.5 transition-transform">←</span> Continue Browsing Menu
+            </a>
         </div>
 
-        <!-- Checkout Form -->
-        <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
-            <h2 class="text-xl font-bold mb-6">Customer Details</h2>
-            <form action="{{ route('placeOrder') }}" method="POST">
-                @csrf
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Full Name</label>
-                        <input type="text" name="name" required class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-600">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Phone Number</label>
-                        <input type="text" name="phone" required class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-600">
+        @if(Session::has('cart') && count(Session::get('cart')) > 0)
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+                
+                <div class="lg:col-span-2 bg-white rounded-2xl border border-coffee-200/60 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-coffee-900 text-coffee-300 text-xs font-bold uppercase tracking-wider border-b border-coffee-800">
+                                    <th class="p-4 pl-6">Item Description</th>
+                                    <th class="p-4 text-center">Price</th>
+                                    <th class="p-4 text-center">Qty</th>
+                                    <th class="p-4 text-right">Total</th>
+                                    <th class="p-4 pr-6 text-center">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-100 text-sm text-coffee-800">
+                                @php $total = 0; @endphp
+                                @foreach(Session::get('cart') as $id => $item)
+                                    <tr class="cart-item-row hover:bg-stone-50/60 transition duration-150" 
+                                        data-id="{{ $id }}" 
+                                        data-price="{{ $item['price'] }}">
+                                        
+                                        <td class="p-4 pl-6">
+                                            <div class="flex items-center gap-3">
+                                                <span class="w-8 h-8 rounded-lg bg-coffee-100 flex items-center justify-center text-sm shadow-inner">☕</span>
+                                                <span class="font-bold text-coffee-900">{{ $item['name'] }}</span>
+                                            </div>
+                                        </td>
+                                        
+                                        <td class="p-4 text-center font-medium text-stone-500">
+                                            ₱{{ number_format($item['price'], 2) }}
+                                        </td>
+                                        
+                                        <td class="p-4 text-center">
+                                            <div class="inline-flex items-center border border-stone-200 rounded-lg bg-stone-50 overflow-hidden shadow-sm">
+                                                <button type="button" onclick="changeQuantity('{{ $id }}', -1)" class="px-2.5 py-1 text-stone-500 hover:bg-stone-200 hover:text-stone-800 transition font-bold select-none">-</button>
+                                                <span id="qty-{{ $id }}" class="item-qty-display px-3 py-1 bg-white font-semibold text-coffee-900 text-xs border-x border-stone-200 min-w-[35px] text-center">
+                                                    {{ $item['quantity'] }}
+                                                </span>
+                                                <button type="button" onclick="changeQuantity('{{ $id }}', 1)" class="px-2.5 py-1 text-stone-500 hover:bg-stone-200 hover:text-stone-800 transition font-bold select-none">+</button>
+                                            </div>
+                                        </td>
+                                        
+                                        <td class="p-4 text-right font-black text-coffee-900">
+                                            ₱<span id="row-total-{{ $id }}">{{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                                        </td>
+                                        
+                                        <td class="p-4 text-center">
+                                            <form action="{{ route('removeCart') }}" method="POST" class="inline-block">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $id }}">
+                                                <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200/40 text-rose-600 flex items-center justify-center transition shadow-sm active:scale-95" title="Remove Item">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @php $total += $item['price'] * $item['quantity']; @endphp
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-bold mb-2">Payment Method</label>
-                    <select name="method" class="w-full border p-3 rounded-lg">
-                        <option value="Cash">Cash on Pickup</option>
-                        <option value="GCash">GCash</option>
-                        <option value="PayMaya">PayMaya</option>
-                    </select>
+
+                <div class="bg-white border border-coffee-200/80 rounded-2xl p-6 shadow-sm sticky top-28">
+                    <h2 class="text-lg font-black text-coffee-900 mb-6 flex items-center gap-2 border-b border-stone-100 pb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Checkout Details
+                    </h2>
+                    
+                    <form action="{{ route('placeOrder') }}" method="POST" class="space-y-5">
+                        @csrf
+                        
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Full Name</label>
+                            <input type="text" name="name" required placeholder="Juan Dela Cruz" class="w-full text-sm bg-stone-50 border border-coffee-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition placeholder:text-zinc-400">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Phone Number</label>
+                            <input type="text" name="phone" required placeholder="0912 345 6789" class="w-full text-sm bg-stone-50 border border-coffee-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition placeholder:text-zinc-400">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Dining Choice</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="border border-stone-200 rounded-xl p-2.5 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-coffee-900 transition hover:bg-stone-50/50 has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50/30">
+                                    <input type="radio" name="order_type" value="pickup" checked class="accent-amber-600">
+                                    🛻 Pickup
+                                </label>
+                                <label class="border border-stone-200 rounded-xl p-2.5 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-coffee-900 transition hover:bg-stone-50/50 has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50/30">
+                                    <input type="radio" name="order_type" value="dinein" class="accent-amber-600">
+                                    🍽️ Dine-In
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Special Instructions</label>
+                            <textarea name="notes" rows="2" placeholder="e.g., Less sugar, extra ice, warm milk..." class="w-full text-xs bg-stone-50 border border-coffee-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition placeholder:text-zinc-400"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Payment Method</label>
+                            <div class="relative">
+                                <select name="method" class="w-full text-sm bg-stone-50 border border-coffee-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition appearance-none cursor-pointer">
+                                    <option value="Cash">💵 Cash on Pickup</option>
+                                    <option value="GCash">🔵 GCash</option>
+                                    <option value="PayMaya">🟢 PayMaya</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-stone-500">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-5 border-t border-stone-200">
+                            <div class="flex justify-between items-end">
+                                <span class="font-bold text-coffee-900 text-sm">Total Bill</span>
+                                <span id="grand-total-display" class="text-2xl font-black text-amber-600">₱{{ number_format($total, 2) }}</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl text-sm transition shadow-sm hover:shadow active:scale-[0.98] flex items-center justify-center gap-2">
+                            Confirm & Place Order
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </form>
                 </div>
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg text-lg transition">
-                    Place Order
-                </button>
-            </form>
-        </div>
-    @else
-        <div class="text-center py-20">
-            <div class="text-6xl mb-4">☕</div>
-            <h2 class="text-2xl font-bold text-gray-600 mb-4">Your cart is empty</h2>
-            <a href="/menu" class="inline-block bg-coffee-700 text-white px-8 py-3 rounded-lg hover:bg-coffee-800">Browse Menu</a>
-        </div>
-    @endif
+
+            </div>
+        @else
+            <div class="text-center py-20 bg-white border border-dashed border-coffee-200 rounded-3xl p-8 max-w-md mx-auto shadow-sm">
+                <div class="w-16 h-16 rounded-full bg-coffee-100 flex items-center justify-center mx-auto mb-5 text-2xl">
+                    🛒
+                </div>
+                <h3 class="text-xl font-bold text-coffee-900 mb-1">Your Basket is Empty</h3>
+                <p class="text-sm text-gray-400 max-w-xs mx-auto mb-8">Looks like you haven't selected a premium beverage blend yet.</p>
+                <a href="/menu" class="inline-flex items-center gap-2 bg-coffee-700 hover:bg-coffee-800 text-white text-xs font-bold px-6 py-3 rounded-xl shadow-sm transition active:scale-95">
+                    Browse Our Menu
+                </a>
+            </div>
+        @endif
+
+    </div>
 </div>
+
+<script>
+function changeQuantity(itemId, change) {
+    const qtyElement = document.getElementById('qty-' + itemId);
+    let currentQty = parseInt(qtyElement.innerText);
+    let newQty = currentQty + change;
+
+    // Set a boundary rule preventing values less than 1 item
+    if (newQty < 1) return;
+
+    // 1. Update the quantity box indicator text
+    qtyElement.innerText = newQty;
+
+    // 2. Scan every dynamic table row and calculate totals 
+    let finalBillSum = 0;
+    
+    document.querySelectorAll('.cart-item-row').forEach(row => {
+        const id = row.getAttribute('data-id');
+        const unitPrice = parseFloat(row.getAttribute('data-price'));
+        const rowQty = parseInt(document.getElementById('qty-' + id).innerText);
+        
+        const rowSubtotal = unitPrice * rowQty;
+        
+        // Update row subtotal display text instantly
+        document.getElementById('row-total-' + id).innerText = rowSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
+        // Accumulate running calculation values
+        finalBillSum += rowSubtotal;
+    });
+
+    // 3. Update the global total checkout banner readout
+    document.getElementById('grand-total-display').innerText = '₱' + finalBillSum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+</script>
 @endsection
