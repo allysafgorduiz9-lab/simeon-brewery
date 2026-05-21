@@ -33,21 +33,17 @@
                         <div class="row">
                             <div class="col-12 col-md-6 mb-4">
                                 <label class="form-label text-dark font-weight-bold mb-1" style="font-weight: 700; font-size: 0.9rem;">Category</label>
-                                <select name="category_id" class="form-select px-3 py-2.5 rounded-lg border-gray-200" required style="font-size: 0.9rem; border-radius: 8px;">
-                                    <option value="" disabled selected>Select a product line...</option>
-                                    {{-- If you pass categories from database, loop them here: --}}
-                                    @if(isset($categories) && count($categories) > 0)
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    @else
-                                        {{-- Standard hardcoded fallback tags for instant loading --}}
-                                        <option value="Coffee-Based">Coffee-Based</option>
-                                        <option value="Non-Coffee">Non-Coffee / Matcha</option>
-                                        <option value="Pastries">Pastries & Desserts</option>
-                                        <option value="Add-ons">Add-ons / Espresso Shots</option>
-                                    @endif
-                                </select>
+                                <select name="category_id">
+    @foreach($categories as $category)
+        <option value="{{ $category->name }}">{{ $category->name }}</option>
+    @endforeach
+</select>
+
+<select name="category_id">
+    @foreach($categories as $category)
+        <option value="{{ $category->id }}">{{ $category->name }}</option>
+    @endforeach
+</select>
                             </div>
 
                             <div class="col-12 col-md-6 mb-4">
