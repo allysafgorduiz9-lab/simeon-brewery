@@ -50,7 +50,10 @@ Route::post('/admin/store-toggle', function () {
 });
 
 // Orders
-Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
+
+
+
+Route::get('/admin/orders', [DashboardController::class, 'index'])->name('admin.orders');
 Route::post('/admin/order/update/{id}', [AdminController::class, 'updateOrder'])->name('admin.order.update');
 
 // Products
