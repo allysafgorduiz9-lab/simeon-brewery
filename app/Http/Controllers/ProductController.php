@@ -89,4 +89,19 @@ public function update(Request $request, $id)
 
     return redirect()->back()->with('success', 'Product updated successfully!');
 }
+
+/**
+ * Emergency Fallback: If the application forces a redirect,
+ * safely pass data back to the view workspace instead of crashing.
+ */
+public function edit($id)
+{
+    $product = \App\Models\Product::findOrFail($id);
+    $products = \App\Models\Product::with('category')->get();
+    $categories = \App\Models\Category::all();
+
+    // This redirects back to your main panel layout but passes the item safely
+    return view('admin.products', compact('product', 'products', 'categories'))
+        ->with('triggerModalId', $id);
+}
 }
