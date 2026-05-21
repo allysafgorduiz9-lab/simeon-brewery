@@ -25,14 +25,16 @@
     <div class="flex h-screen">
         
         <!-- Sidebar -->
-        <div class="w-64 bg-coffee-900 text-white flex flex-col">
-            <!-- Logo -->
-            <div class="p-6 text-center border-b border-coffee-800">
-                <div class="text-3xl mb-1">☕</div>
-                <h1 class="text-lg font-bold">Simeon Brewers</h1>
-                <p class="text-xs text-gray-400">Admin Panel</p>
-            </div>
-
+       <div class="flex items-center gap-3 px-6 py-5 border-b border-stone-800/40 bg-coffee-950">
+    <img src="{{ asset('Simeon Cafe.jpg') }}" 
+         alt="Simeon Cafe Logo" 
+         class="w-10 h-10 rounded-xl object-cover border border-stone-700/50 shadow-md bg-stone-900">
+    
+    <div>
+        <h2 class="text-sm font-black text-white tracking-wide leading-none">Simeon Cafe</h2>
+        <span class="text-[10px] text-amber-500 font-bold tracking-widest uppercase mt-0.5 block">Admin Panel</span>
+    </div>
+</div>
             <!-- Menu -->
             <nav class="flex-1 p-4 space-y-2">
                 <a href="/admin/dashboard" class="block px-4 py-3 rounded hover:bg-coffee-800 transition {{ request()->is('admin*') ? 'bg-coffee-700' : '' }}">
