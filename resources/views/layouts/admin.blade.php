@@ -4,106 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Simeon Brewers</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        coffee: { 100: '#f5f5dc', 700: '#6f4e37', 800: '#3b2f2f', 900: '#231a1a' }
+                        coffee: {
+                            100: '#faf8f5',
+                            700: '#4a3319',
+                            800: '#2b1a08',
+                            900: '#140c04'
+                        }
                     }
                 }
             }
         }
     </script>
+
     <style>
-        body { font-family: 'Segoe UI', sans-serif; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
     </style>
 </head>
+
 <body class="bg-gray-100">
 
-    <div class="flex h-screen">
-        
-        <!-- Sidebar -->
-       <div class="flex items-center gap-3 px-6 py-5 border-b border-stone-800/40 bg-coffee-950">
-    <img src="{{ asset('Simeon Cafe.jpg') }}" 
-         alt="Simeon Cafe Logo" 
-         class="w-10 h-10 rounded-xl object-cover border border-stone-700/50 shadow-md bg-stone-900">
-    
-    <div>
-        <h2 class="text-sm font-black text-white tracking-wide leading-none">Simeon Cafe</h2>
-        <span class="text-[10px] text-amber-500 font-bold tracking-widest uppercase mt-0.5 block">Admin Panel</span>
-    </div>
-</div>
-            <!-- Menu -->
-            <nav class="flex-1 p-4 space-y-2">
-                <a href="/admin/dashboard" class="block px-4 py-3 rounded hover:bg-coffee-800 transition {{ request()->is('admin*') ? 'bg-coffee-700' : '' }}">
-                    📊 Dashboard
-                </a>
-                <a href="/admin/orders" class="block px-4 py-3 rounded hover:bg-coffee-800 transition">
-                    📋 Active Orders
-                </a>
-                <a href="/admin/products" class="block px-4 py-3 rounded hover:bg-coffee-800 transition">
-                    ☕ Manage Menu
-                </a>
-                <a href="/admin/categories" class="block px-4 py-3 rounded hover:bg-coffee-800 transition">
-                    📂 Categories
-                </a>
-                <a href="/admin/reports" class="block px-4 py-3 rounded hover:bg-coffee-800 transition">
-                    📈 Reports
-                </a>
-                <a href="/admin/feedbacks" class="block px-4 py-3 rounded hover:bg-coffee-800 transition">
-                    💬 Feedbacks
-                </a>
-            </nav>
-
-            <!-- Logout -->
-            <div class="p-4 border-t border-coffee-800">
-                <a href="/" class="block text-center px-4 py-2 rounded bg-coffee-800 hover:bg-coffee-700 transition">
-                    🚪 Back to Website
-                </a>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto">
-            <!-- Top Header -->
-            <header class="bg-white p-4 shadow flex justify-between items-center">
-                <h2 class="text-xl font-bold text-coffee-900">Admin Panel</h2>
-                
-                <!-- Store Status Toggle -->
-<form action="/admin/store-toggle" method="POST">
-    @csrf
-
-   @php
+@php
     $setting = \App\Models\Setting::first();
     $storeStatus = optional($setting)->store_status ?? 'open';
 @endphp
 
-    <button type="submit"
-        class="relative inline-flex items-center w-28 h-12 rounded-full transition duration-300
-        {{ $storeStatus == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
+<div class="flex min-h-screen">
 
-        <!-- Toggle Circle -->
-        <span class="absolute left-1 top-1 bg-white w-10 h-10 rounded-full shadow-md transform transition duration-300
-            {{ $storeStatus == 'open' ? 'translate-x-16' : '' }}">
-        </span>
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-coffee-900 text-white flex flex-col shadow-2xl">
 
-        <!-- Text -->
-        <span class="w-full text-center text-white font-bold z-10">
-            {{ $storeStatus == 'open' ? 'OPEN' : 'CLOSED' }}
-        </span>
+        <!-- LOGO -->
+        <div class="p-6 border-b border-coffee-800">
+            <div class="flex items-center gap-4">
+                <img src="{{ asset('Simeon Cafe.jpg') }}"
+                     class="w-14 h-14 rounded-full border-2 border-amber-500 object-cover">
 
-    </button>
-</form>
-            </header>
+                <div>
+                    <h1 class="text-xl font-bold">
+                        Simeon Cafe
+                    </h1>
 
-            <!-- Page Content -->
-            <main class="p-8">
-                @yield('content')
-            </main>
+                    <p class="text-amber-500 text-sm tracking-widest font-semibold">
+                        ADMIN PANEL
+                    </p>
+                </div>
+            </div>
         </div>
+
+        <!-- NAVIGATION -->
+        <nav class="flex-1 p-5 space-y-3">
+
+            <a href="/admin/dashboard"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->is('admin/dashboard') ? 'bg-coffee-700 shadow-lg' : 'hover:bg-coffee-800' }}">
+
+                📊 <span>Dashboard</span>
+            </a>
+
+            <a href="/admin/orders"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->is('admin/orders') ? 'bg-coffee-700 shadow-lg' : 'hover:bg-coffee-800' }}">
+
+                📋 <span>Active Orders</span>
+            </a>
+
+            <a href="/admin/products"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->is('admin/products') ? 'bg-coffee-700 shadow-lg' : 'hover:bg-coffee-800' }}">
+
+                ☕ <span>Manage Menu</span>
+            </a>
+
+            <a href="/admin/categories"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->is('admin/categories') ? 'bg-coffee-700 shadow-lg' : 'hover:bg-coffee-800' }}">
+
+                📂 <span>Categories</span>
+            </a>
+
+            <a href="/admin/reports"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->is('admin/reports') ? 'bg-coffee-700 shadow-lg' : 'hover:bg-coffee-800' }}">
+
+                📈 <span>Reports</span>
+            </a>
+
+            <a href="/admin/feedbacks"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
+               {{ request()->is('admin/feedbacks') ? 'bg-coffee-700 shadow-lg' : 'hover:bg-coffee-800' }}">
+
+                💬 <span>Feedbacks</span>
+            </a>
+
+        </nav>
+
+        <!-- FOOTER -->
+        <div class="p-5 border-t border-coffee-800">
+
+            <a href="/"
+               class="block text-center bg-coffee-800 hover:bg-coffee-700 py-3 rounded-xl font-semibold transition">
+
+                🚪 Back to Website
+
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex flex-col">
+
+        <!-- TOP HEADER -->
+        <header class="bg-white shadow-sm border-b px-8 py-5 flex justify-between items-center">
+
+            <div>
+                <h2 class="text-2xl font-bold text-coffee-900">
+                    Admin Dashboard
+                </h2>
+
+                <p class="text-sm text-gray-500">
+                    Welcome back, Administrator
+                </p>
+            </div>
+
+            <!-- STORE TOGGLE -->
+            <form action="/admin/store-toggle" method="POST">
+                @csrf
+
+                <button type="submit"
+                    class="relative inline-flex items-center w-32 h-12 rounded-full transition-all duration-300 shadow-lg
+                    {{ $storeStatus == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
+
+                    <!-- CIRCLE -->
+                    <span class="absolute left-1 top-1 bg-white w-10 h-10 rounded-full shadow-md transition-all duration-300
+                    {{ $storeStatus == 'open' ? 'translate-x-20' : '' }}">
+                    </span>
+
+                    <!-- TEXT -->
+                    <span class="w-full text-center text-white font-bold z-10 tracking-wide">
+                        {{ strtoupper($storeStatus) }}
+                    </span>
+
+                </button>
+            </form>
+
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            @yield('content')
+        </main>
+
     </div>
+
+</div>
 
 </body>
 </html>
