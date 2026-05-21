@@ -111,22 +111,26 @@
                         </td>
                         
                         <td class="text-center px-4 style-td-last">
-                            <div class="d-flex align-items-center justify-content-center gap-2">
-                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-action-edit text-white font-weight-semibold px-3 py-1.5 shadow-2xs d-inline-flex align-items-center justify-content-center" 
-                                   style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #8c6d58; border: none; text-decoration: none; min-width: 75px;">
-                                    <i class="fas fa-edit me-1 small"></i>Edit
-                                </a>
-                                
-                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-action-delete text-white font-weight-semibold px-3 py-1.5 shadow-2xs d-inline-flex align-items-center justify-content-center" 
-                                            style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #dc2626; border: none; min-width: 85px;">
-                                        <i class="fas fa-trash-alt me-1 small"></i>Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+    <div class="d-flex align-items-center justify-content-center gap-2">
+        
+        <a href="{{ route('admin.products.edit', $product->id) }}" 
+           class="btn btn-sm btn-action-edit text-white font-weight-semibold d-inline-flex align-items-center justify-content-center transition-all shadow-2xs" 
+           style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #8c6d58; border: none; text-decoration: none; width: 100px; height: 36px;">
+            <i class="fas fa-edit me-1 small"></i>Edit
+        </a>
+        
+        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline mb-0" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
+            @csrf
+            @method('DELETE')
+            <button type="submit" 
+                    class="btn btn-sm btn-action-delete text-white font-weight-semibold d-inline-flex align-items-center justify-content-center transition-all shadow-2xs" 
+                    style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #dc2626; border: none; width: 100px; height: 36px;">
+                <i class="fas fa-trash-alt me-1 small"></i>Delete
+            </button>
+        </form>
+        
+    </div>
+</td>
                     </tr>
                 @empty
                     <tr style="background-color: #ffffff; box-shadow: 0 2px 12px rgba(0,0,0,0.035);">
