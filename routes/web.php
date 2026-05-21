@@ -103,3 +103,12 @@ Route::get('/setup-test-order', function () {
 
     return "Test coffee order created successfully! Go check your dashboard.";
 });
+
+Route::get('/order-confirmation', function() {
+    return view('customer.receipt', [
+        'receiptId' => request('receiptId'),
+        'name' => request('name'),
+        'total' => request('total'),
+        'method' => request('method')
+    ]);
+})->name('order.confirmation');
