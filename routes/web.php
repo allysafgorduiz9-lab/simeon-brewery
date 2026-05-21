@@ -27,13 +27,20 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adm
 
 // Toggle Store Status
 
+use App\Models\Setting;
+
 Route::post('/admin/store-toggle', function () {
 
-    $current = session('store_status', 'open');
+    $setting = Setting::first();
 
-    $newStatus = $current == 'open' ? 'closed' : 'open';
+    if (!$setting) {
+        $setting = new Setting();
+        $setting->store_status = 'open';
+    } else {
+        $setting->store_status = $setting->store_status === 'open' ? 'closed' : 'open';
+    }
 
-    session(['store_status' => $newStatus]);
+    $setting->save();
 
     return back();
 });

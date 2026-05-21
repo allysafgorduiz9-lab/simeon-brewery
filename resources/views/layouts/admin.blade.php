@@ -73,9 +73,10 @@
 <form action="/admin/store-toggle" method="POST">
     @csrf
 
-    @php
-        $storeStatus = session('store_status', 'open');
-    @endphp
+   @php
+    $setting = \App\Models\Setting::first();
+    $storeStatus = optional($setting)->store_status ?? 'open';
+@endphp
 
     <button type="submit"
         class="relative inline-flex items-center w-28 h-12 rounded-full transition duration-300
