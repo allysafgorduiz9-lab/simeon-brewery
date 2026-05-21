@@ -70,4 +70,5 @@ Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.r
 Route::get('/admin/feedbacks', [AdminController::class, 'feedbacks'])->name('admin.feedbacks');
 
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('removeCart');
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')
+
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');

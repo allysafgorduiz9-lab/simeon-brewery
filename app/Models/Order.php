@@ -1,18 +1,15 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    // Your other code...
-
-    /**
-     * Get the items/products for this specific order.
-     */
+    // Tells Laravel that an Order has many ordered items connected to it
     public function items()
     {
-        // Change 'OrderItem' to whatever your actual order item model is named
-        return $this->hasMany(OrderItem::class); 
+        // Change OrderItem::class if your pivot or order details model is named differently
+        return $this->hasMany(OrderItem::class);
     }
 }
