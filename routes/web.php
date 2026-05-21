@@ -129,4 +129,11 @@ Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->na
 
 Route::post('/admin/toggle-store', [\App\Http\Controllers\AdminController::class, 'toggleStoreStatus'])->name('admin.toggleStore');
 
+
+// Ensure your route is defined exactly like this:
+Route::post('/admin/product/add', [ProductController::class, 'store'])->name('admin.product.add');
+
+// Also, make sure your delete and toggle routes are named correctly to avoid more errors:
+Route::post('/admin/product/delete/{id}', [ProductController::class, 'destroy'])->name('admin.product.delete');
+Route::post('/admin/product/toggle/{id}', [ProductController::class, 'toggle'])->name('admin.product.toggle');
 Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])->name('admin.product.update');
