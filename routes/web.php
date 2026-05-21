@@ -59,16 +59,15 @@ Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orde
 Route::post('/admin/order/update/{id}', [AdminController::class, 'updateOrder'])->name('admin.order.update');
 
 // Products
-Route::get('/admin/products', [ProductController::class, 'index']);
-Route::post('/admin/product/add', [AdminController::class, 'addProduct'])->name('admin.product.add');
-Route::post('/admin/product/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.product.update');
-Route::post('/admin/product/toggle/{id}', [AdminController::class, 'toggleProduct'])->name('admin.product.toggle');
-Route::post('/admin/product/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.product.delete');
-// Route to show the "Add New Product" form page
-Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products.index');
 
-// Route to handle saving the new product into the database
+// Your other routes:
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
 Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
+Route::patch('/admin/products/{id}/update-status', [ProductController::class, 'updateStatus'])->name('admin.products.update-status');
+Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+
 
 // Categories
 Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
