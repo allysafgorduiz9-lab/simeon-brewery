@@ -20,15 +20,14 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($category->products as $product)
-                        <div class="bg-white rounded-2xl... {{ $product->is_available ? 'hover:shadow-md' : 'opacity-60 grayscale' }}">
-
-<div class="bg-white rounded-2xl... {{ $product->stock ? 'hover:shadow-md' : 'opacity-60 grayscale' }}">
+                        
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-coffee-200/60 flex flex-col transition-all duration-300 {{ $product->stock ? 'hover:shadow-md hover:-translate-y-1' : 'opacity-60 grayscale bg-zinc-50' }}">
 
                             <div class="h-44 bg-gradient-to-br from-coffee-200/50 to-coffee-300/30 flex items-center justify-center relative">
                                 <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-coffee-700 text-xl font-bold">
                                     ☕
                                 </div>
-                                @if(!$product->is_available)
+                                @if(!$product->stock)
                                     <div class="absolute inset-0 bg-black/5 flex items-center justify-center">
                                         <span class="bg-rose-600 text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider shadow">Sold Out</span>
                                     </div>
@@ -38,7 +37,8 @@
                             <div class="p-6 flex flex-col flex-grow">
                                 <div class="flex justify-between items-start mb-2 gap-2">
                                     <h3 class="font-bold text-lg text-coffee-900 tracking-tight leading-tight">{{ $product->name }}</h3>
-                                    @if($product->is_available)
+                                    
+                                    @if($product->stock)
                                         <span class="text-lg font-black text-amber-600 shrink-0">₱{{ number_format($product->price, 2) }}</span>
                                     @else
                                         <span class="text-lg font-bold text-zinc-400 shrink-0 line-through">₱{{ number_format($product->price, 2) }}</span>
@@ -53,17 +53,15 @@
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product->id }}">
                                     
-                                    @if($product->is_available)
-    <button>Add to Cart</button>
-@else
-    <span>Sold Out</span>
-@endif
-
-@if($product->stock)
-    <button>Add to Cart</button>
-@else
-    <span>Sold Out</span>
-@endif
+                                    @if($product->stock)
+                                        <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm py-2.5 px-4 rounded-xl transition duration-200 shadow-sm">
+                                            Add to Cart
+                                        </button>
+                                    @else
+                                        <button type="button" disabled class="w-full bg-zinc-300 text-zinc-500 font-bold text-sm py-2.5 px-4 rounded-xl cursor-not-allowed">
+                                            Sold Out
+                                        </button>
+                                    @endif
                                 </form>
                             </div>
 
