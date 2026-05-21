@@ -127,21 +127,43 @@
 new Chart(ctxDaily, {
     type: 'line',
     data: {
-        // 🛠️ PIPED LIVE: Dynamic last 7 days names (e.g., ["Sat", "Sun", "Mon"])
+        // 🛠️ PIPED LIVE: Fixed "Day (Date)" labels from Monday to Saturday
         labels: {!! json_encode($weeklyLabels) !!},
         datasets: [{
             label: 'Sales (₱)',
-            // 🛠️ PIPED LIVE: Real numeric calculations calculated from your database tables
             data: {!! json_encode($weeklySalesValues) !!},
             borderColor: '#78350f',
             backgroundColor: 'rgba(120, 53, 15, 0.04)',
             fill: true,
             tension: 0.2,
             borderWidth: 2,
-            pointRadius: 3
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#78350f'
         }]
     },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    options: { 
+        responsive: true, 
+        maintainAspectRatio: false, 
+        plugins: { 
+            legend: { display: false } 
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: {
+                    font: { size: 10, weight: '600' },
+                    color: '#78716c',
+                    maxRotation: 15, // Tilts text slightly if columns crowd on mobile tabs
+                    minRotation: 15
+                }
+            },
+            y: {
+                grid: { color: '#f5f5f4' },
+                ticks: { font: { size: 11 }, color: '#78716c' }
+            }
+        }
+    }
 });
         // 🛠️ CHART 2: LIVE BEST SELLING CATEGORIES (Pipes in your 3 Coffee-Based and 1 Non-Coffee item)
         const ctxBest = document.getElementById('bestSellersChart').getContext('2d');
