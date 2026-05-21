@@ -5,6 +5,7 @@ use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\DashboardController;
 
 // ========================
 // CUSTOMER ROUTES
@@ -69,3 +70,4 @@ Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.r
 Route::get('/admin/feedbacks', [AdminController::class, 'feedbacks'])->name('admin.feedbacks');
 
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('removeCart');
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')
