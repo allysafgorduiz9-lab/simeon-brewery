@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'store_status' => env('STORE_STATUS', 'open'),
 ];

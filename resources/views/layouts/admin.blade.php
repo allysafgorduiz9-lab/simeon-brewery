@@ -72,9 +72,17 @@
                 <!-- Store Status Toggle -->
 <form action="/admin/store-toggle" method="POST">
     @csrf
-    <button type="submit" class="px-6 py-2 rounded-full font-bold text-white 
-        {{ env('STORE_STATUS') == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
-        Store: {{ env('STORE_STATUS') == 'open' ? 'OPEN' : 'CLOSED' }}
+
+    @php
+        $storeStatus = env('STORE_STATUS', 'open');
+    @endphp
+
+    <button type="submit"
+        class="px-6 py-2 rounded-full font-bold text-white 
+        {{ $storeStatus == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
+
+        Store: {{ $storeStatus == 'open' ? 'OPEN' : 'CLOSED' }}
+
     </button>
 </form>
             </header>

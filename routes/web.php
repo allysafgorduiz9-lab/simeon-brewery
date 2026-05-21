@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\File;
 
 // ========================
 // CUSTOMER ROUTES
@@ -25,7 +26,25 @@ Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admi
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
 // Toggle Store Status
-Route::post('/admin/store-toggle', [AdminController::class, 'toggleStore'])->name('admin.toggle');
+Route::post('/admin/store-toggle', function () {
+
+    $path = base_path('.env');
+
+    $current = env('STORE_STATUS', 'open');
+
+    $newStatus = $current == 'open' ? 'closed' : 'open';
+
+    File::put(
+        $path,
+        str_replace(
+            'STORE_STATUS='.$current,
+            'STORE_STATUS='.$newStatus,
+            File::get($path)
+        )
+    );
+
+    return back();
+});
 
 // Orders
 Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
