@@ -23,17 +23,24 @@
                         
                         <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-coffee-200/60 flex flex-col transition-all duration-300 {{ $product->stock ? 'hover:shadow-md hover:-translate-y-1' : 'opacity-60 grayscale bg-zinc-50' }}">
 
-                            <div class="h-44 bg-gradient-to-br from-coffee-200/50 to-coffee-300/30 flex items-center justify-center relative">
-                                <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-coffee-700 text-xl font-bold">
-                                    ☕
-                                </div>
-                                @if(!$product->stock)
-                                    <div class="absolute inset-0 bg-black/5 flex items-center justify-center">
-                                        <span class="bg-rose-600 text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider shadow">Sold Out</span>
-                                    </div>
-                                @endif
-                            </div>
-                            
+                           <div class="h-44 bg-stone-100 flex items-center justify-center relative overflow-hidden">
+    @if($product->image)
+        <img src="{{ asset('storage/' . $product->image) }}" 
+             alt="{{ $product->name }}" 
+             class="w-full h-full object-cover">
+    @else
+        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-coffee-700 text-xl font-bold">
+            ☕
+        </div>
+    @endif
+
+    @if(!$product->stock)
+        <div class="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[1px]">
+            <span class="bg-rose-600 text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider shadow-md">Sold Out</span>
+        </div>
+    @endif
+</div>
+                             
                             <div class="p-6 flex flex-col flex-grow">
                                 <div class="flex justify-between items-start mb-2 gap-2">
                                     <h3 class="font-bold text-lg text-coffee-900 tracking-tight leading-tight">{{ $product->name }}</h3>
