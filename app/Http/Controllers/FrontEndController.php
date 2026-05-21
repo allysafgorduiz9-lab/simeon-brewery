@@ -25,11 +25,8 @@ class FrontEndController extends Controller
      */
     public function index()
     {
-        // 🛠️ FIX: If it was using 'status' or 'availability', change it to 'stock'
-        // This gets all available products where stock = 1
         $products = Product::where('stock', 1)->get(); 
-        
-        return view('welcome', compact('products')); // Or whichever view your homepage uses
+        return view('welcome', compact('products'));
     }
 
     /**
@@ -37,10 +34,8 @@ class FrontEndController extends Controller
      */
     public function menu()
     {
-        // 🛠️ FIX: Update this query to look for 'stock' as well!
         $products = Product::where('stock', 1)->get();
-
-        return view('menu', compact('products')); // Or customer.menu depending on your folder layout
+        return view('menu', compact('products'));
     }
 
     /**
