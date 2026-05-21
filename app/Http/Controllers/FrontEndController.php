@@ -34,17 +34,13 @@ class FrontEndController extends Controller
      */
     public function menu()
 {
-    // 1. 🚀 FIX: Pull all 4 products directly from the database table unconditionally
-    $products = \App\Models\Product::all();
+    // 🚀 FIX: Only pull products where is_available is true (1)
+    $products = \App\Models\Product::where('is_available', 1)->get();
 
-    // 2. Fetch status safely using global root DB facade
     $rawStatus = \DB::table('settings')->value('store_status') ?? 'open';
-    
-    // 3. Normalize string values
     $storeStatus = strtolower(trim($rawStatus));
     $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
 
-    // 4. Render view layout seamlessly, passing $products down
     return view('customer.menu', compact('products', 'isStoreOpen'));
 }
     /**
