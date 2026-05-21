@@ -25,7 +25,9 @@ class FrontEndController extends Controller
      */
     public function index()
     {
-        $products = Product::where('stock', 1)->get(); 
+        // Added absolute path \App\Models\ to bypass namespace issues
+        $products = \App\Models\Product::where('stock', 1)->get(); 
+        
         return view('welcome', compact('products'));
     }
 
@@ -34,8 +36,10 @@ class FrontEndController extends Controller
      */
     public function menu()
     {
-        $products = Product::where('stock', 1)->get();
-        return view('menu', compact('products'));
+        // Added absolute path \App\Models\ here too
+        $products = \App\Models\Product::where('stock', 1)->get();
+
+        return view('menu', compact('products')); 
     }
 
     /**
@@ -43,7 +47,8 @@ class FrontEndController extends Controller
      */
     public function addToCart(Request $request) 
     {
-        $product = Product::findOrFail($request->id);
+        // 🛠️ ALSO FIX LINE 46 HERE so it doesn't crash next!
+        $product = \App\Models\Product::findOrFail($request->id);
         
         if (!$product->is_available) {
             return back()->with('error', 'Item Unavailable');
