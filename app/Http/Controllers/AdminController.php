@@ -115,4 +115,23 @@ class AdminController extends Controller
             'recentOrders'
         ));
     }
+
+    /**
+ * Toggle the manual store open/closed status
+ */
+public function toggleStoreStatus(Request $request)
+{
+    // Find the setting record
+    $setting = DB::table('store_settings')->where('key', 'store_status')->first();
+
+    // Flip the status string back and forth
+    $newStatus = ($setting->value === 'open') ? 'closed' : 'open';
+
+    // Update the database
+    DB::table('store_settings')
+        ->where('key', 'store_status')
+        ->update(['value' => $newStatus, 'updated_at' => now()]);
+
+    return back()->with('success', "Store status manually changed to " . strtoupper($newStatus) . "!");
+}
 }
