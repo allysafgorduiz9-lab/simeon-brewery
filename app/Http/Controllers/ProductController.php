@@ -45,18 +45,21 @@ public function store(Request $request)
         'name' => 'required|string|max:255',
         'category_id' => 'required', 
         'price' => 'required|numeric|min:0',
-        'stock' => 'required|boolean',
+        'stock' => 'required|boolean', // This keeps track of the form input data
         'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048', 
     ]);
 
     $product = new Product();
     $product->name = $validated['name'];
-    
-    // Fixed database column mapping here!
     $product->category_id = $validated['category_id']; 
-    
     $product->price = $validated['price'];
-    $product->stock = $validated['stock'];
+    
+    // 🛠️ FIX: Change this to match your real database column name!
+    // If your column is named 'status', use this:
+    $product->status = $validated['stock']; 
+    
+    // NOTE: If your column is named 'availability', change it instead to:
+    // $product->availability = $validated['stock'];
 
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('products', 'public');
