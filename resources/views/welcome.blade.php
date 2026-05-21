@@ -11,7 +11,11 @@
         <h1 class="text-5xl md:text-7xl font-bold mb-4 text-coffee-300 drop-shadow-lg">Simeon Brewers</h1>
         <p class="text-xl md:text-2xl mb-8 font-light text-gray-200">Premium roasted coffee for the perfect morning.</p>
         
-       @if(config('app.store_status') == 'open')
+       @php
+    $storeStatus = \App\Models\Setting::first()->store_status;
+@endphp
+
+@if($storeStatus == 'open')
     <a href="/menu" class="inline-block bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 px-10 rounded-full text-lg transition transform hover:scale-105 shadow-xl">
         Order Now
     </a>
