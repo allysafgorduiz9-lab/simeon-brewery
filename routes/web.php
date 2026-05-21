@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Http\Controllers\Admin\OrderController; 
 
 // ========================
 // CUSTOMER ROUTES
@@ -27,7 +28,7 @@ Route::get('/admin', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admin.login.submit');
 
 // Dashboard
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
 // Toggle Store Status
 
@@ -53,7 +54,7 @@ Route::post('/admin/store-toggle', function () {
 
 
 
-Route::get('/admin/orders', [DashboardController::class, 'index'])->name('admin.orders');
+Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders');
 Route::post('/admin/order/update/{id}', [AdminController::class, 'updateOrder'])->name('admin.order.update');
 
 // Products
