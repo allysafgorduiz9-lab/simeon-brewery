@@ -37,6 +37,18 @@
             </div>
         </div>
     </nav>
+    @php
+    $storeStatus = session('store_status', 'open');
+@endphp
+
+@if($storeStatus == 'closed')
+<div class="bg-red-600 text-white text-center py-4 shadow-lg">
+    <h2 class="text-2xl font-bold">🚫 STORE IS CURRENTLY CLOSED</h2>
+    <p class="text-sm mt-1">
+        Ordering is temporarily unavailable. Please come back later.
+    </p>
+</div>
+@endif
 
     <!-- Main Content -->
     <main class="min-h-screen">
