@@ -119,7 +119,7 @@
             <i class="fas fa-edit me-1 small"></i>Edit
         </a>
         
-        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline mb-0" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
+        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline-block mb-0" style="margin: 0;" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
             @csrf
             @method('DELETE')
             <button type="submit" 
