@@ -53,9 +53,9 @@ class FrontEndController extends Controller
     /**
      * Handle adding items to the customer's cart session.
      */
-    public function addToCart(Request $request) 
+    public function addToCart(\Illuminate\Http\Request $request) 
     {
-        // 🛠️ ALSO FIX LINE 46 HERE so it doesn't crash next!
+        // Now findOrFail will work flawlessly too because we used the absolute path
         $product = \App\Models\Product::findOrFail($request->id);
         
         if (!$product->is_available) {
