@@ -65,7 +65,7 @@ Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.
 Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
 Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
 Route::patch('/admin/products/{id}/update-status', [ProductController::class, 'updateStatus'])->name('admin.products.update-status');
-Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+// Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
 Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
 
@@ -128,3 +128,5 @@ Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->nam
 Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
 Route::post('/admin/toggle-store', [\App\Http\Controllers\AdminController::class, 'toggleStoreStatus'])->name('admin.toggleStore');
+
+Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])->name('admin.product.update');
