@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\File;
+use App\Http\Controllers\CartController;
 
 // ========================
 // CUSTOMER ROUTES
@@ -66,3 +67,5 @@ Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.r
 
 // Feedbacks
 Route::get('/admin/feedbacks', [AdminController::class, 'feedbacks'])->name('admin.feedbacks');
+
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('removeCart');
