@@ -56,15 +56,32 @@ class AdminController extends Controller
         return view('admin.login');
     }
 
-    public function reports()
-{
-    // Sum up completed checkouts
-    $totalSales = \DB::table('orders')->where('status', 'completed')->sum('total_price');
-    $totalOrders = \DB::table('orders')->count();
-    
-    // Average order size expression
-    $avgOrderValue = $totalOrders > 0 ? ($totalSales / $totalOrders) : 0;
-    
-    return view('admin.reports', compact('totalSales', 'totalOrders', 'avgOrderValue'));
-}
+   public function reports()
+    {
+        // 1. Calculate genuine metric numbers from your existing database tables
+        // (Using fallbacks if your checkout tables aren't fully migrated yet)
+        $totalSales = DB::table('orders')->where('status', 'completed')->sum('total_price') ?? 0.00;
+        $totalOrders = DB::table('orders')->count() ?? 0;
+        $avgOrderValue = $totalOrders > 0 ? ($totalSales / $totalOrders) : 0.00;
+        
+        // Count how many products are registered across the entire system
+        $activeProductsCount = \App\Models\Product::count();
+
+        // 2. Fetch the real product count grouped by each category name for the charts
+        $categoryData = \App\Models\Category::withCount('products')->get();
+        
+        // Split them into clean arrays for JavaScript to read easily
+        $chartLabels = $categoryData->pluck('name')->toArray();         // e.g., ["Coffee-Based", "Non-Coffee"]
+        $chartCounts = $categoryData->pluck('products_count')->toArray(); // e.g., [3, 1]
+
+        // 3. Pass all live variables into the admin view file
+        return view('admin.reports', compact(
+            'totalSales', 
+            'totalOrders', 
+            'avgOrderValue', 
+            'activeProductsCount',
+            'chartLabels',
+            'chartCounts'
+        ));
+    }
 }

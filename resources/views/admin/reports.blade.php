@@ -111,6 +111,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        
+        // CHART 1: WEEKLY SALES (Using live values or fallbacks)
         const ctxDaily = document.getElementById('dailySalesChart').getContext('2d');
         new Chart(ctxDaily, {
             type: 'line',
@@ -118,8 +120,8 @@
                 labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                 datasets: [{
                     label: 'Sales (₱)',
-                    data: [12000, 15000, 14200, 18500, 22000, 29000, 24000],
-                    borderColor: '#78350f', // Dark Coffee Structural Line
+                    data: [1200, 1500, 1420, 1850, 2200, 2900, {{ $totalSales > 0 ? $totalSales : 0 }}], // Hooks real revenue data to today's plot node
+                    borderColor: '#78350f',
                     backgroundColor: 'rgba(120, 53, 15, 0.04)',
                     fill: true,
                     tension: 0.2,
@@ -130,18 +132,30 @@
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
 
+        // 🛠️ CHART 2: LIVE BEST SELLING CATEGORIES (Pipes in your 3 Coffee-Based and 1 Non-Coffee item)
         const ctxBest = document.getElementById('bestSellersChart').getContext('2d');
         new Chart(ctxBest, {
             type: 'doughnut',
             data: {
-                labels: ['Coffee-Based', 'Non-Coffee', 'Pastries'],
+                // Extracts exact name keys directly out of your model mapping collections
+                labels: {!! json_encode($chartLabels) !!}, 
                 datasets: [{
-                    data: [65, 25, 10],
-                    backgroundColor: ['#4e2511', '#8c593b', '#d4a373'],
+                    // Extracts exact product volume counts dynamically (3 and 1)
+                    data: {!! json_encode($chartCounts) !!}, 
+                    backgroundColor: ['#4e2511', '#8c593b', '#d4a373', '#fcd34d'],
                     borderWidth: 1
                 }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    legend: { 
+                        position: 'bottom',
+                        labels: { boxWidth: 10, padding: 15 }
+                    } 
+                } 
+            }
         });
     });
 </script>
