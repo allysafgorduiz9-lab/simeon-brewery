@@ -87,20 +87,30 @@
                             <th class="px-6 py-3.5 text-right">Total Charges</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-stone-100 font-medium">
-                        <tr class="hover:bg-stone-50/60 transition">
-                            <td class="px-6 py-3.5 font-bold text-stone-900">#10823</td>
-                            <td class="px-6 py-3.5 text-xs text-stone-400">Just Now</td>
-                            <td class="px-6 py-3.5">2x Macho Latte, 1x Espresso Block</td>
-                            <td class="px-6 py-3.5 text-right font-bold text-stone-900">₱420.00</td>
-                        </tr>
-                        <tr class="hover:bg-stone-50/60 transition">
-                            <td class="px-6 py-3.5 font-bold text-stone-900">#10822</td>
-                            <td class="px-6 py-3.5 text-xs text-stone-400">14 mins ago</td>
-                            <td class="px-6 py-3.5">1x Cream Matcha Blend</td>
-                            <td class="px-6 py-3.5 text-right font-bold text-stone-900">₱165.00</td>
-                        </tr>
-                    </tbody>
+                  <tbody class="divide-y divide-stone-100 font-medium">
+    @forelse($recentOrders as $order)
+        <tr class="hover:bg-stone-50/60 transition">
+            <td class="px-6 py-3.5 font-bold text-stone-900">#{{ $order->id }}</td>
+            <td class="px-6 py-3.5 text-xs text-stone-400">
+                {{ \Carbon\Carbon::parse($order->created_at)->diffForHumans() }}
+            </td>
+            <td class="px-6 py-3.5 text-xs">
+                <span class="bg-stone-100 px-2 py-0.5 rounded text-stone-700 uppercase font-bold text-[10px]">
+                    {{ $order->status ?? 'Processed' }}
+                </span>
+            </td>
+            <td class="px-6 py-3.5 text-right font-bold text-stone-900">
+                ₱{{ number_format($order->total_price, 2) }}
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="4" class="px-6 py-8 text-center text-xs text-stone-400 italic">
+                No system orders registered yet.
+            </td>
+        </tr>
+    @endforelse
+</tbody>
                 </table>
             </div>
         </div>
@@ -114,24 +124,25 @@
         
         // CHART 1: WEEKLY SALES (Using live values or fallbacks)
         const ctxDaily = document.getElementById('dailySalesChart').getContext('2d');
-        new Chart(ctxDaily, {
-            type: 'line',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Sales (₱)',
-                    data: [1200, 1500, 1420, 1850, 2200, 2900, {{ $totalSales > 0 ? $totalSales : 0 }}], // Hooks real revenue data to today's plot node
-                    borderColor: '#78350f',
-                    backgroundColor: 'rgba(120, 53, 15, 0.04)',
-                    fill: true,
-                    tension: 0.2,
-                    borderWidth: 2,
-                    pointRadius: 3
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-
+new Chart(ctxDaily, {
+    type: 'line',
+    data: {
+        // 🛠️ PIPED LIVE: Dynamic last 7 days names (e.g., ["Sat", "Sun", "Mon"])
+        labels: {!! json_encode($weeklyLabels) !!},
+        datasets: [{
+            label: 'Sales (₱)',
+            // 🛠️ PIPED LIVE: Real numeric calculations calculated from your database tables
+            data: {!! json_encode($weeklySalesValues) !!},
+            borderColor: '#78350f',
+            backgroundColor: 'rgba(120, 53, 15, 0.04)',
+            fill: true,
+            tension: 0.2,
+            borderWidth: 2,
+            pointRadius: 3
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+});
         // 🛠️ CHART 2: LIVE BEST SELLING CATEGORIES (Pipes in your 3 Coffee-Based and 1 Non-Coffee item)
         const ctxBest = document.getElementById('bestSellersChart').getContext('2d');
         new Chart(ctxBest, {
