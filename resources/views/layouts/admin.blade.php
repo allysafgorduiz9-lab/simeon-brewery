@@ -78,10 +78,18 @@
     @endphp
 
     <button type="submit"
-        class="px-6 py-2 rounded-full font-bold text-white 
+        class="relative inline-flex items-center w-28 h-12 rounded-full transition duration-300
         {{ $storeStatus == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
 
-        Store: {{ $storeStatus == 'open' ? 'OPEN' : 'CLOSED' }}
+        <!-- Circle -->
+        <span class="absolute left-1 top-1 bg-white w-10 h-10 rounded-full shadow-md transform transition duration-300
+            {{ $storeStatus == 'open' ? 'translate-x-16' : '' }}">
+        </span>
+
+        <!-- Text -->
+        <span class="w-full text-center text-white font-bold z-10">
+            {{ $storeStatus == 'open' ? 'OPEN' : 'CLOSED' }}
+        </span>
 
     </button>
 </form>
