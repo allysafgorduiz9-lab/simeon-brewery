@@ -11,7 +11,7 @@
         <div>
             <button class="btn text-white px-4 py-2.5 shadow-sm font-weight-bold d-flex align-items-center gap-2 transition-all hover-brightness" 
                     style="background-color: #1d110b; border-radius: 10px; font-weight: 700; font-size: 0.88rem; border: none;">
-                <i class="fas fa-plus mr-1.5"></i> Add New Product
+                <i class="fas fa-plus"></i> Add New Product
             </button>
         </div>
     </div>
@@ -57,7 +57,7 @@
                     <th class="py-3.5" style="font-weight: 700;">Category</th>
                     <th class="py-3.5" style="font-weight: 700;">Base Price</th>
                     <th class="py-3.5 text-center" style="font-weight: 700; width: 180px;">Menu Status</th>
-                    <th class="py-3.5 px-4 style-th-last text-center" style="width: 200px; font-weight: 700;">Actions</th>
+                    <th class="py-3.5 px-4 style-th-last text-center" style="width: 220px; font-weight: 700;">Actions</th>
                 </tr>
             </thead>
             
@@ -112,17 +112,17 @@
                         
                         <td class="text-center px-4 style-td-last">
                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-action-edit text-white font-weight-semibold px-3 py-1.5 shadow-2xs transition-all" 
-                                   style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #8c6d58; border: none; text-decoration: none;">
-                                    <i class="fas fa-edit mr-1"></i> Edit
+                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-action-edit text-white font-weight-semibold px-3 py-1.5 shadow-2xs d-inline-flex align-items-center justify-content-center" 
+                                   style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #8c6d58; border: none; text-decoration: none; min-width: 75px;">
+                                    <i class="fas fa-edit me-1 small"></i>Edit
                                 </a>
                                 
                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-action-delete text-white font-weight-semibold px-2.5 py-1.5 transition-all shadow-2xs" 
-                                            style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #dc2626; border: none;">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <button type="submit" class="btn btn-sm btn-action-delete text-white font-weight-semibold px-3 py-1.5 shadow-2xs d-inline-flex align-items-center justify-content-center" 
+                                            style="font-size: 0.8rem; border-radius: 6px; font-weight: 700; background-color: #dc2626; border: none; min-width: 85px;">
+                                        <i class="fas fa-trash-alt me-1 small"></i>Delete
                                     </button>
                                 </form>
                             </div>
@@ -170,6 +170,7 @@
     .btn-action-edit {
         background-color: #8c6d58 !important;
         box-shadow: 0 2px 4px rgba(140, 109, 88, 0.2);
+        transition: all 0.2s ease;
     }
     .btn-action-edit:hover {
         background-color: #735643 !important;
@@ -179,6 +180,7 @@
     .btn-action-delete {
         background-color: #dc2626 !important;
         box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+        transition: all 0.2s ease;
     }
     .btn-action-delete:hover {
         background-color: #b91c1c !important;
