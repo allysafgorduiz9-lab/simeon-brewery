@@ -10,23 +10,20 @@ use App\Models\Setting;
 class DashboardController extends Controller
 {
     public function index()
-    {
-        $totalSales = Order::where('status', 'Completed')->sum('total_price');
+{
+    // 1. Get all recent orders for the Audit Log
+    $recentOrders = Order::orderBy('created_at', 'desc')->take(10)->get();
 
-        $pendingCount = Order::where('status', 'Pending')->count();
+    // 2. Get Sales grouped by Date for the Graph
+    // This ensures May 22nd is captured based on the exact timestamp
+    $salesData = Order::selectRaw('DATE(created_at) as order_date, SUM(total_price) as daily_total')
+        ->groupBy('order_date')
+        ->orderBy('order_date', 'ASC')
+        ->get();
 
-        $completedCount = Order::where('status', 'Completed')->count();
+    $weeklyLabels = $salesData->pluck('order_date');
+    $weeklySalesValues = $salesData->pluck('daily_total');
 
-        $orders = Order::with('items')
-            ->latest()
-            ->take(10)
-            ->get();
-
-        return view('admin.dashboard', compact(
-            'totalSales',
-            'pendingCount',
-            'completedCount',
-            'orders'
-        ));
-    }
+    return view('admin.analytics', compact('recentOrders', 'weeklyLabels', 'weeklySalesValues', ...));
+}
 }
