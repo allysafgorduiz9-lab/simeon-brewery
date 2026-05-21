@@ -9,10 +9,15 @@
             <p class="text-muted small mb-0 font-weight-medium" style="font-size: 0.85rem; letter-spacing: 0.2px;">Add, modify, and monitor items inside Simeon Cafe pricing loops</p>
         </div>
         <div>
-            <button class="btn text-white px-4 py-2.5 shadow-sm font-weight-bold d-flex align-items-center gap-2 transition-all hover-brightness" 
-                    style="background-color: #1d110b; border-radius: 10px; font-weight: 700; font-size: 0.88rem; border: none;">
-                <i class="fas fa-plus"></i> Add New Product
-            </button>
+            <button class="btn text-white px-4 py-2.5 shadow-sm font-weight-bold d-flex align-items-center gap-2 transition-all hover-brightness" ...>
+    <i class="fas fa-plus"></i> Add New Product
+</button>
+
+<a href="{{ route('admin.products.create') }}" 
+   class="btn text-white px-4 py-2.5 shadow-sm font-weight-bold d-inline-flex align-items-center gap-2 transition-all hover-brightness" 
+   style="background-color: #1d110b; border-radius: 10px; font-weight: 700; font-size: 0.88rem; border: none; text-decoration: none;">
+    <i class="fas fa-plus"></i> Add New Product
+</a>
         </div>
     </div>
 
