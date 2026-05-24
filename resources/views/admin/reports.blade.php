@@ -91,6 +91,10 @@
         </div>
     </div>
 </div>
+<div class="p-4 bg-gray-200">
+    Labels: {{ json_encode($weeklyLabels) }} <br>
+    Values: {{ json_encode($weeklySalesValues) }}
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
