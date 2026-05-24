@@ -40,10 +40,8 @@
 
 <div class="flex min-h-screen">
 
-    <!-- SIDEBAR -->
     <aside class="w-72 bg-coffee-900 text-white flex flex-col shadow-2xl">
 
-        <!-- LOGO -->
         <div class="p-6 border-b border-coffee-800">
             <div class="flex items-center gap-4">
                 <img src="{{ asset('Simeon Cafe.jpg') }}"
@@ -61,7 +59,6 @@
             </div>
         </div>
 
-        <!-- NAVIGATION -->
         <nav class="flex-1 p-5 space-y-3">
 
             <a href="/admin/dashboard"
@@ -99,19 +96,18 @@
                 📈 <span>Reports</span>
             </a>
 
-        
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" 
-                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-red-900 text-left">
-                🚪 <span>Logout</span>
-            </button>
-        </form>
-    </div>
+            <div class="border-t border-coffee-800 pt-3 mt-3">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" 
+                        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-red-900 text-left">
+                        🚪 <span>Logout</span>
+                    </button>
+                </form>
+            </div>
 
         </nav>
 
-        <!-- FOOTER -->
         <div class="p-5 border-t border-coffee-800">
 
             <a href="/"
@@ -125,10 +121,8 @@
 
     </aside>
 
-    <!-- MAIN CONTENT -->
     <div class="flex-1 flex flex-col">
 
-        <!-- TOP HEADER -->
         <header class="bg-white shadow-sm border-b px-8 py-5 flex justify-between items-center">
 
             <div>
@@ -141,7 +135,6 @@
                 </p>
             </div>
 
-            <!-- STORE TOGGLE -->
             <form action="/admin/store-toggle" method="POST">
                 @csrf
 
@@ -149,12 +142,10 @@
                     class="relative inline-flex items-center w-32 h-12 rounded-full transition-all duration-300 shadow-lg
                     {{ $storeStatus == 'open' ? 'bg-green-500' : 'bg-red-500' }}">
 
-                    <!-- CIRCLE -->
                     <span class="absolute left-1 top-1 bg-white w-10 h-10 rounded-full shadow-md transition-all duration-300
                     {{ $storeStatus == 'open' ? 'translate-x-20' : '' }}">
                     </span>
 
-                    <!-- TEXT -->
                     <span class="w-full text-center text-white font-bold z-10 tracking-wide">
                         {{ strtoupper($storeStatus) }}
                     </span>
@@ -164,7 +155,6 @@
 
         </header>
 
-        <!-- PAGE CONTENT -->
         <main class="flex-1 p-8 overflow-y-auto">
             @yield('content')
         </main>
