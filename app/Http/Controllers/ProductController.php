@@ -54,7 +54,7 @@ public function store(Request $request)
     \App\Models\Product::create([
         'name' => $request->name,
         'price' => $request->price,
-        'description' => $request->description,
+        //'description' => $request->description,
         'category_id' => $request->category_id, // 👈 Saves the chosen category relation ID
         'stock' => $request->has('stock') ? 1 : 0,
     ]);
