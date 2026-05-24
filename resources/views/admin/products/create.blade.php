@@ -41,11 +41,6 @@
     @endforeach
 </select>
 
-<select name="category_id">
-    @foreach($categories as $category)
-        <option value="{{ $category->id }}">{{ $category->name }}</option>
-    @endforeach
-</select>
                             </div>
 
                             <div class="col-12 col-md-6 mb-4">
