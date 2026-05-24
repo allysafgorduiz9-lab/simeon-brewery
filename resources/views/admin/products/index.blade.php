@@ -9,6 +9,8 @@
             
     
         </div>
+        <br>
+        <br>
         <a href="{{ route('admin.products.create') }}" 
    class="btn text-white px-4 py-2.5 shadow-sm font-weight-bold d-flex align-items-center gap-2" 
    style="background-color: #1d110b; border-radius: 10px; text-decoration: none;">
