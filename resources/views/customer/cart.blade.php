@@ -132,23 +132,15 @@
     <h3 class="font-bold text-xs uppercase tracking-wider text-stone-500 mb-4">Payment Details</h3>
     
     <div id="gcash-info" class="payment-info hidden">
-        <div class="flex flex-col items-center">
-            <img src="{{ asset('storage/payments/Gcash.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-            <p class="text-xs font-bold text-blue-800 mt-3">Account: {{ \App\Models\Setting::where('key', 'gcash_number')->value('value') }}</p>
-        </div>
-    </div>
-    
-    <div id="paymaya-info" class="payment-info hidden">
-        <div class="flex flex-col items-center">
-            <img src="{{ asset('storage/payments/Maya.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-            <p class="text-xs font-bold text-green-800 mt-3">Account: {{ \App\Models\Setting::where('key', 'paymaya_number')->value('value') }}</p>
-        </div>
-    </div>
+    <div class="flex flex-col items-center">
+        <img src="{{ asset('storage/payments/Gcash.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
+        <p class="text-xs font-bold text-blue-800 mt-3">Account: 0912 345 6789</p> </div>
+</div>
 
-    <div class="mt-4 pt-4 border-t border-stone-200">
-        <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Enter Reference No. (Required)</label>
-        <input type="text" name="reference_number" id="reference_number" placeholder="e.g. 1234 5678 9012" class="w-full text-sm bg-white border border-stone-300 rounded-lg p-2.5 focus:ring-2 focus:ring-amber-500/20 transition">
-    </div>
+<div id="paymaya-info" class="payment-info hidden">
+    <div class="flex flex-col items-center">
+        <img src="{{ asset('storage/payments/Maya.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
+        <p class="text-xs font-bold text-green-800 mt-3">Account: 0998 765 4321</p> </div>
 </div>
                             </div>
                         </div>

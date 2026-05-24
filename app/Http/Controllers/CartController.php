@@ -41,4 +41,17 @@ class CartController extends Controller
 
     // ... your original add to cart logic continues below ...
 }
+public function cart()
+{
+    // Fetch settings here
+    $gcashNum = \App\Models\Setting::where('key', 'gcash_number')->first();
+    $mayaNum = \App\Models\Setting::where('key', 'paymaya_number')->first();
+
+    // Use the actual column name here (e.g., 'content' or whatever you found)
+    $gcashNumber = $gcashNum ? $gcashNum->your_actual_column_name : 'N/A';
+    $mayaNumber = $mayaNum ? $mayaNum->your_actual_column_name : 'N/A';
+
+    return view('customer.cart', compact('gcashNumber', 'mayaNumber'));
+}
+
 }
