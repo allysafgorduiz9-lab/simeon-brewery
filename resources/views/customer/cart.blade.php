@@ -128,20 +128,26 @@
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
                                 </div>
 
-                                <div id="payment-details-container" class="mt-4 mb-4 border border-stone-200 rounded-xl p-4 bg-stone-50 hidden">
+                                <div id="payment-details-container" class="mt-4 border border-stone-200 rounded-xl p-4 bg-stone-50 hidden">
     <h3 class="font-bold text-xs uppercase tracking-wider text-stone-500 mb-4">Payment Details</h3>
     
     <div id="gcash-info" class="payment-info hidden">
-    <div class="flex flex-col items-center">
-        <img src="{{ asset('storage/payments/Gcash.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-        <p class="text-xs font-bold text-blue-800 mt-3">Account: 0912 345 6789</p>
+        <div class="flex flex-col items-center">
+            <img src="{{ asset('storage/payments/Gcash.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
+            <p class="text-xs font-bold text-blue-800 mt-3">GCash Number: 0912 345 6789</p>
+        </div>
     </div>
-</div>
+    
+    <div id="paymaya-info" class="payment-info hidden">
+        <div class="flex flex-col items-center">
+            <img src="{{ asset('storage/payments/Maya.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
+            <p class="text-xs font-bold text-green-800 mt-3">Maya Number: 0998 765 4321</p>
+        </div>
+    </div>
 
-<div id="paymaya-info" class="payment-info hidden">
-    <div class="flex flex-col items-center">
-        <img src="{{ asset('storage/payments/Maya.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-        <p class="text-xs font-bold text-green-800 mt-3">Account: 0998 765 4321</p>
+    <div class="mt-4 pt-4 border-t border-stone-200">
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Enter Reference No. (Required)</label>
+        <input type="text" name="reference_number" id="reference_number" placeholder="Enter reference number here" class="w-full text-sm bg-white border border-stone-300 rounded-lg p-3 z-50 relative focus:ring-2 focus:ring-amber-500/20">
     </div>
 </div>
 </div>
@@ -189,18 +195,13 @@
         const container = document.getElementById('payment-details-container');
         const refInput = document.getElementById('reference_number');
         
-        // Hide all info
         document.querySelectorAll('.payment-info').forEach(el => el.classList.add('hidden'));
         
         if (method === 'GCash' || method === 'PayMaya') {
             container.classList.remove('hidden');
             refInput.setAttribute('required', 'true');
-            
-            if (method === 'GCash') {
-                document.getElementById('gcash-info').classList.remove('hidden');
-            } else {
-                document.getElementById('paymaya-info').classList.remove('hidden');
-            }
+            if (method === 'GCash') document.getElementById('gcash-info').classList.remove('hidden');
+            else document.getElementById('paymaya-info').classList.remove('hidden');
         } else {
             container.classList.add('hidden');
             refInput.removeAttribute('required');
