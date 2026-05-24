@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Http\Controllers\Admin\OrderController; 
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Auth;
 
 // ========================
 // CUSTOMER ROUTES
@@ -146,3 +147,8 @@ Route::put('/admin/products/{id}', [App\Http\Controllers\ProductController::clas
 
 
      Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/'); // Redirects to home after logout
+})->name('logout');
