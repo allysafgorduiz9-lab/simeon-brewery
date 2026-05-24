@@ -9,9 +9,11 @@
             <h1 class="text-3xl md:text-5xl font-black text-coffee-900 tracking-tight">Our Menu</h1>
         </div>
 
-        <div class="mb-8">
-            <input type="text" placeholder="Search our menu..." class="w-full p-4 rounded-xl border border-coffee-200 shadow-sm focus:ring-2 focus:ring-amber-500 outline-none">
-        </div>
+        <form action="{{ route('menu') }}" method="GET" class="mb-8">
+    <input type="text" name="search" value="{{ request('search') }}" 
+           placeholder="Search our menu..." 
+           class="w-full p-4 rounded-xl border border-coffee-200 shadow-sm focus:ring-2 focus:ring-amber-500 outline-none">
+</form>
 
         <div class="flex flex-col md:flex-row gap-8">
             
@@ -19,12 +21,20 @@
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-coffee-200/60 sticky top-24">
                     <h2 class="font-bold text-coffee-900 mb-4 uppercase text-sm tracking-wider">Categories</h2>
                     <ul class="space-y-2">
-                        <li><a href="#" class="block text-coffee-700 hover:text-amber-600 font-medium">All Items</a></li>
-                        {{-- Add your foreach for categories here --}}
-                       @foreach($categories ?? [] as $category)
-    <li><a href="#" class="block text-stone-600 hover:text-amber-600">{{ $category->name }}</a></li>
-@endforeach
-                    </ul>
+    <li>
+        <a href="{{ route('menu') }}" class="block font-medium {{ !request('category') ? 'text-amber-600' : 'text-coffee-700' }}">
+            All Items
+        </a>
+    </li>
+    @foreach($categories as $category)
+        <li>
+            <a href="{{ route('menu', ['category' => $category->id]) }}" 
+               class="block {{ request('category') == $category->id ? 'text-amber-600 font-bold' : 'text-stone-600 hover:text-amber-600' }}">
+                {{ $category->name }}
+            </a>
+        </li>
+    @endforeach
+</ul>
                 </div>
             </aside>
 

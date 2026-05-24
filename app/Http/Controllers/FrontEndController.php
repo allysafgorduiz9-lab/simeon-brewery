@@ -44,6 +44,24 @@ class FrontEndController extends Controller
     $products = Product::all();
     $categories = Category::all(); // Fetch all categories
     $isStoreOpen = true; // Replace with your actual logic
+
+    // Start with a query
+    $query = Product::query();
+
+    // If searching, filter by name
+    if ($request->has('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    // If filtering by category, filter by category_id
+    if ($request->has('category')) {
+        $query->where('category_id', $request->category);
+    }
+
+    $products = $query->get();
+    $categories = Category::all();
+
+    return view('customer.menu', compact('products', 'categories'));
     
     return view('customer.menu', compact('products', 'categories', 'isStoreOpen'));
 
