@@ -21,9 +21,9 @@
                     <ul class="space-y-2">
                         <li><a href="#" class="block text-coffee-700 hover:text-amber-600 font-medium">All Items</a></li>
                         {{-- Add your foreach for categories here --}}
-                        @foreach($categories as $category)
-                            <li><a href="#" class="block text-stone-600 hover:text-amber-600">{{ $category->name }}</a></li>
-                        @endforeach
+                       @foreach($categories ?? [] as $category)
+    <li><a href="#" class="block text-stone-600 hover:text-amber-600">{{ $category->name }}</a></li>
+@endforeach
                     </ul>
                 </div>
             </aside>

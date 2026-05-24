@@ -41,6 +41,12 @@ class FrontEndController extends Controller
     $storeStatus = strtolower(trim($rawStatus));
     $isStoreOpen = ($storeStatus === 'open' || $storeStatus == '1');
 
+    $products = Product::all();
+    $categories = Category::all(); // Fetch all categories
+    $isStoreOpen = true; // Replace with your actual logic
+    
+    return view('customer.menu', compact('products', 'categories', 'isStoreOpen'));
+
     return view('customer.menu', compact('products', 'isStoreOpen'));
 }
     /**
