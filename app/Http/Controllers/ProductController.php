@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product; // 👈 Make sure your Product model is imported here!
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
