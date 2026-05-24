@@ -23,9 +23,10 @@ class ProductController extends Controller
     {
         // 1. Fetch all products from your database table
         $products = Product::all(); 
+        $categories = \App\Models\Category::all();
 
         // 2. Pass the $products variable down to your blade view
-        return view('admin.products.index', compact('products'));
+       return view('admin.products.index', compact('products', 'categories'));
     }
     /**
  * Show the form for creating a new product.
