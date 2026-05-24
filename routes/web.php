@@ -139,3 +139,7 @@ Route::post('/admin/product/toggle/{id}', [ProductController::class, 'toggle'])-
 Route::post('/admin/product/update/{id}', [ProductController::class, 'update'])->name('admin.product.update');
 
 Route::post('/admin/product/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('admin.product.update');
+// Use 'PUT' or 'PATCH' for updates
+
+Route::put('/admin/products/{id}', [App\Http\Controllers\ProductController::class, 'update'])
+     ->name('admin.products.update');
