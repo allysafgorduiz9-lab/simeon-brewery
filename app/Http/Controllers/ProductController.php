@@ -55,7 +55,7 @@ public function store(Request $request)
     $product->name = $request->name;
     $product->price = $request->price; 
     $product->category_id = $request->category_id;
-    $product->is_available = 1;
+   // $product->is_available = 1;
 
     // Handle Image Upload
     if ($request->hasFile('image')) {
