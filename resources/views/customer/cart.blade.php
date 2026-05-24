@@ -134,13 +134,15 @@
     <div id="gcash-info" class="payment-info hidden">
     <div class="flex flex-col items-center">
         <img src="{{ asset('storage/payments/Gcash.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-        <p class="text-xs font-bold text-blue-800 mt-3">Account: 0912 345 6789</p> </div>
+        <p class="text-xs font-bold text-blue-800 mt-3">Account: 0912 345 6789</p>
+    </div>
 </div>
 
 <div id="paymaya-info" class="payment-info hidden">
     <div class="flex flex-col items-center">
         <img src="{{ asset('storage/payments/Maya.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-        <p class="text-xs font-bold text-green-800 mt-3">Account: 0998 765 4321</p> </div>
+        <p class="text-xs font-bold text-green-800 mt-3">Account: 0912 544 9746</p>
+    </div>
 </div>
                             </div>
                         </div>
