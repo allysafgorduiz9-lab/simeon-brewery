@@ -63,19 +63,22 @@ public function store(Request $request)
 }
 public function update(Request $request, $id)
 {
-    $product = \App\Models\Product::findOrFail($id);
+    $product = Product::findOrFail($id);
     
-    // Validate the incoming data
-    $request->validate([
-        'name' => 'required',
-        'price' => 'required|numeric',
-        'category_id' => 'required',
-    ]);
-
-    // Update the product
-    $product->update($request->all());
-
-    return redirect()->back()->with('success', 'Product updated!');
+    // Your logic here
+    $product->name = $request->name;
+    $product->price = $request->price;
+    $product->category_id = $request->category_id;
+    
+    // Image handling
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('products', 'public');
+        $product->image = $path;
+    }
+    
+    $product->save();
+    
+    return redirect()->back()->with('success', 'Product updated successfully!');
 }
 /**
  * Emergency Fallback: If the application forces a redirect,
