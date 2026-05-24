@@ -89,14 +89,14 @@ class FrontEndController extends Controller
     public function cart()
 {
     // Fetch settings here
-    $gcashNum = \App\Models\Setting::where('key', 'gcash_number')->first();
-    $mayaNum = \App\Models\Setting::where('key', 'paymaya_number')->first();
+   // $gcashNum = \App\Models\Setting::where('key', 'gcash_number')->first();
+    //$mayaNum = \App\Models\Setting::where('key', 'paymaya_number')->first();
 
     // Use the actual column name here (e.g., 'content' or whatever you found)
-    $gcashNumber = $gcashNum ? $gcashNum->your_actual_column_name : 'N/A';
-    $mayaNumber = $mayaNum ? $mayaNum->your_actual_column_name : 'N/A';
+   // $gcashNumber = $gcashNum ? $gcashNum->your_actual_column_name : 'N/A';
+   // $mayaNumber = $mayaNum ? $mayaNum->your_actual_column_name : 'N/A';
 
-    return view('customer.cart', compact('gcashNumber', 'mayaNumber'));
+    return view('customer.cart');
 }
 
     /**
@@ -120,7 +120,8 @@ class FrontEndController extends Controller
             'order_type'    => $request->order_type ?? 'pickup',
             'method'        => $request->method, 
             'total_price'   => $total,
-            'status'        => 'Pending'
+            'status'        => 'Pending',
+            'reference_number' => $request->reference_number
         ]);
 
         foreach ($cart as $cartItem) {
