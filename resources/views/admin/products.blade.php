@@ -143,7 +143,6 @@
 </div>
 
 <script>
-<script>
 function openEditModal(id, name, description, price, category_id, imagePath) {
     // Fill the hidden inputs inside your modal with the product's data
     document.getElementById('editName').value = name;
@@ -161,7 +160,6 @@ function openEditModal(id, name, description, price, category_id, imagePath) {
 function closeEditModal() {
     document.getElementById('editModal').classList.add('hidden');
 }
-</script>
 
 function closeEditModal() {
     document.getElementById('editModal').classList.add('hidden');
