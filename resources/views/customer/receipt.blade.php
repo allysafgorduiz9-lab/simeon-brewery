@@ -53,7 +53,9 @@
 
                 <div class="flex justify-between items-center">
                     <span class="text-stone-400 font-medium">Issued Timestamp</span>
-                    <span class="font-medium text-stone-700 text-xs">{{ date('M d, Y • h:i A') }}</span>
+                    <span class="font-medium text-stone-700 text-xs">
+    {{ \Carbon\Carbon::now('Asia/Manila')->format('M d, Y • h:i A') }}
+</span>
                 </div>
             </div>
 
