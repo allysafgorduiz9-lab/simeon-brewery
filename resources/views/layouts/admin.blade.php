@@ -99,13 +99,6 @@
                 📈 <span>Reports</span>
             </a>
 
-            <a href="/admin/feedbacks"
-               class="flex items-center gap-3 px-4 py-3 rounded-xl transition
-               {{ request()->is('admin/feedbacks') ? 'bg-coffee-700 shadow-lg' : 'hover:bg-coffee-800' }}">
-
-                💬 <span>Feedbacks</span>
-            </a>
-
         </nav>
 
         <!-- FOOTER -->
