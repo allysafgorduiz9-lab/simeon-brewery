@@ -100,4 +100,21 @@ public function edit($id)
     return view('admin.products', compact('product', 'products', 'categories'))
         ->with('triggerModalId', $id);
 }
+
+public function destroy($id)
+{
+    // 1. Find the product
+    $product = Product::findOrFail($id);
+    
+    // 2. Optional: Delete the associated image file from storage
+    if ($product->image) {
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($product->image);
+    }
+    
+    // 3. Delete the product from the database
+    $product->delete();
+    
+    // 4. Redirect back with a success message
+    return redirect()->back()->with('success', 'Product deleted successfully!');
+}
 }
