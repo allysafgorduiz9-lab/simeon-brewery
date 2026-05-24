@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
-    protected $fillable = ['category_id', 'name', 'description', 'price', 'image_path', 'is_available'];
+    // Ensure 'image' matches your DB column. Remove 'description' if you don't have that column.
+    protected $fillable = ['category_id', 'name', 'price', 'image', 'is_available'];
 
-   public function category(): BelongsTo
+    public function category(): BelongsTo
     {
-        // 🛠️ This links the product back upward to the parent category name
         return $this->belongsTo(Category::class, 'category_id');
     }
 }
