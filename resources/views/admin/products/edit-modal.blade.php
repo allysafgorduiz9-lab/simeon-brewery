@@ -1,9 +1,9 @@
-<div id="editModal" class="hidden fixed inset-0 bg-stone-900 bg-opacity-40 backdrop-blur-sm d-flex align-items-center justify-content-center z-50 p-3">
-    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden w-100" style="max-width: 500px; animation: modalFadeIn 0.3s ease;">
+<div id="editModal" class="hidden fixed inset-0 bg-dark bg-opacity-50 backdrop-blur-sm d-flex align-items-center justify-content-center z-50 p-4">
+    <div class="bg-white rounded-4 shadow-lg w-100 overflow-hidden border-0" style="max-width: 550px; animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
         
-        <div class="p-4 border-bottom border-stone-100 d-flex justify-content-between align-items-center">
-            <h5 class="m-0 font-weight-black text-stone-800">Edit Menu Item</h5>
-            <button type="button" onclick="document.getElementById('editModal').classList.add('hidden')" class="btn-close shadow-none"></button>
+        <div class="px-4 py-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+            <h6 class="m-0 fw-bold text-uppercase text-secondary" style="letter-spacing: 1px;">Edit Product Details</h6>
+            <button type="button" onclick="document.getElementById('editModal').classList.add('hidden')" class="btn-close opacity-50"></button>
         </div>
 
         <form id="editProductForm" action="" method="POST" enctype="multipart/form-data">
@@ -11,40 +11,48 @@
             @method('PUT')
             
             <div class="p-4">
-                <div class="mb-4 text-center">
-                    <label for="edit_image_input" class="d-block mx-auto position-relative" style="width: 140px; height: 140px; cursor: pointer;">
-                        <img id="edit_image_preview" src="" class="w-100 h-100 object-fit-cover rounded-3 border border-2 border-stone-200">
-                        <div class="position-absolute bottom-0 w-100 bg-black bg-opacity-50 text-white py-1 rounded-bottom-3 small">Change Photo</div>
-                    </label>
-                    <input type="file" name="image" id="edit_image_input" class="d-none" accept="image/*" onchange="previewImage(event)">
+                <div class="row g-4 align-items-center">
+                    <div class="col-auto">
+                        <label for="edit_image_input" class="position-relative cursor-pointer">
+                            <img id="edit_image_preview" src="" class="rounded-3 border shadow-sm" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white text-center rounded-bottom-3" style="font-size: 0.65rem; padding: 2px;">CHANGE</div>
+                        </label>
+                        <input type="file" name="image" id="edit_image_input" class="d-none" accept="image/*" onchange="previewImage(event)">
+                    </div>
+                    <div class="col">
+                        <h5 class="fw-bold mb-1" id="display_name">Product Name</h5>
+                        <p class="text-muted small mb-0">Update item information for the menu.</p>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="small text-uppercase font-weight-bold text-stone-500 mb-1">Product Name</label>
-                    <input type="text" name="name" id="edit_name" class="form-control form-control-lg bg-stone-50 border-0 rounded-3 shadow-none" required>
-                </div>
+                <hr class="my-4 opacity-25">
 
-                <div class="mb-3">
-                    <label class="small text-uppercase font-weight-bold text-stone-500 mb-1">Category</label>
-                    <select name="category_id" id="edit_category" class="form-select form-select-lg bg-stone-50 border-0 rounded-3 shadow-none">
-                       @foreach($categories ?? [] as $category)
-    <option value="{{ $category->id }}">{{ $category->name }}</option>
-@endforeach
-                    </select>
-                </div>
-
-                <div class="mb-0">
-                    <label class="small text-uppercase font-weight-bold text-stone-500 mb-1">Price (PHP)</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-stone-50 border-0 rounded-start-3 font-weight-bold text-stone-400">₱</span>
-                        <input type="number" name="price" id="edit_price" class="form-control form-control-lg bg-stone-50 border-0 rounded-end-3 shadow-none" step="0.01" required>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="small fw-bold text-muted mb-1">Product Name</label>
+                        <input type="text" name="name" id="edit_name" class="form-control form-control-sm py-2" required oninput="document.getElementById('display_name').innerText = this.value">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small fw-bold text-muted mb-1">Category</label>
+                        <select name="category_id" id="edit_category" class="form-select form-select-sm py-2">
+                            @foreach($categories ?? [] as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small fw-bold text-muted mb-1">Price (₱)</label>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light border-end-0">₱</span>
+                            <input type="number" name="price" id="edit_price" class="form-control py-2 border-start-0" step="0.01" required>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="p-4 bg-stone-50 d-flex justify-content-end gap-2">
-                <button type="button" onclick="document.getElementById('editModal').classList.add('hidden')" class="btn btn-link text-stone-500 font-weight-bold text-decoration-none">Cancel</button>
-                <button type="submit" class="btn btn-dark px-4 py-2 rounded-3 font-weight-bold" style="background: #1d110b;">Update Changes</button>
+            <div class="px-4 py-3 bg-light d-flex justify-content-end gap-2">
+                <button type="button" onclick="document.getElementById('editModal').classList.add('hidden')" class="btn btn-sm btn-outline-secondary px-3">Discard</button>
+                <button type="submit" class="btn btn-sm px-4" style="background-color: #1d110b; color: white;">Save Updates</button>
             </div>
         </form>
     </div>
@@ -54,8 +62,9 @@
     function openEditModal(product) {
         document.getElementById('editProductForm').action = "/admin/products/" + product.id;
         document.getElementById('edit_name').value = product.name;
+        document.getElementById('display_name').innerText = product.name; // Live title update
         document.getElementById('edit_price').value = product.price;
-        document.getElementById('edit_category').value = product.category_id; // Set selected category
+        document.getElementById('edit_category').value = product.category_id;
         document.getElementById('edit_image_preview').src = "/storage/" + product.image;
         document.getElementById('editModal').classList.remove('hidden');
     }
@@ -70,6 +79,7 @@
 </script>
 
 <style>
-    @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     .hidden { display: none !important; }
+    .cursor-pointer { cursor: pointer; }
 </style>
