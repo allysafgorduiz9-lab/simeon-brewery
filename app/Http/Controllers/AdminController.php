@@ -57,37 +57,39 @@ class AdminController extends Controller
         return view('admin.login');
     }
 
-   public function reports()
+  public function reports()
 {
-    // 1. Get ALL orders from the last 7 days to ensure consistency
-    $startDate = \Carbon\Carbon::now()->subDays(6)->startOfDay();
-    $orders = \App\Models\Order::where('created_at', '>=', $startDate)
+    // Set to Philippine Time
+    $timezone = 'Asia/Manila';
+
+    // 1. Get all orders from the last 7 days
+    $orders = \App\Models\Order::where('created_at', '>=', \Carbon\Carbon::now($timezone)->subDays(6)->startOfDay())
                 ->orderBy('created_at', 'DESC')
                 ->get();
 
-    // 2. Prepare Data for Audit Log (Table)
-    $recentOrders = $orders->take(10); // Or paginate if needed
+    // 2. Prepare Data for Table (Audit Log)
+    $recentOrders = $orders->take(10); 
 
-    // 3. Prepare Data for Chart (Group by Date)
-    // We create a map of the last 7 days to ensure dates with 0 sales still show
-    $chartData = collect();
+    // 3. Prepare Data for Chart
+    // Create an array of the last 7 days (formatted as M d)
+    $chartData = [];
     for ($i = 6; $i >= 0; $i--) {
-        $date = \Carbon\Carbon::now()->subDays($i)->format('M d');
-        $chartData->put($date, 0);
+        $date = \Carbon\Carbon::now($timezone)->subDays($i)->format('M d');
+        $chartData[$date] = 0; // Initialize with 0
     }
 
-    // Fill the map with actual sales
+    // Loop through the orders and add them to their respective dates
     foreach ($orders as $order) {
-        $date = \Carbon\Carbon::parse($order->created_at)->format('M d');
-        if ($chartData->has($date)) {
+        $date = \Carbon\Carbon::parse($order->created_at, $timezone)->format('M d');
+        if (array_key_exists($date, $chartData)) {
             $chartData[$date] += $order->total_price;
         }
     }
 
-    $weeklyLabels = $chartData->keys()->toArray();
-    $weeklySalesValues = $chartData->values()->toArray();
+    $weeklyLabels = array_keys($chartData);
+    $weeklySalesValues = array_values($chartData);
 
-    // Summary Calculations
+    // Stats
     $totalSales = $orders->sum('total_price');
     $totalOrders = $orders->count();
     $avgOrderValue = $totalOrders > 0 ? $totalSales / $totalOrders : 0;
@@ -98,7 +100,6 @@ class AdminController extends Controller
         'totalSales', 'totalOrders', 'avgOrderValue', 'activeProductsCount'
     ));
 }
-
     /**
  * Toggle the manual store open/closed status
  */
