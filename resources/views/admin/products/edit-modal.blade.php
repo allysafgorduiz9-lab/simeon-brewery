@@ -27,9 +27,9 @@
                 <div class="mb-3">
                     <label class="small text-uppercase font-weight-bold text-stone-500 mb-1">Category</label>
                     <select name="category_id" id="edit_category" class="form-select form-select-lg bg-stone-50 border-0 rounded-3 shadow-none">
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
+                       @foreach($categories ?? [] as $category)
+    <option value="{{ $category->id }}">{{ $category->name }}</option>
+@endforeach
                     </select>
                 </div>
 
