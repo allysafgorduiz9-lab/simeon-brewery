@@ -7,12 +7,13 @@
         <div>
             <h1 class="h3 mb-1 text-gray-900 font-weight-black" style="font-weight: 800; letter-spacing: -0.75px;">Manage Menu</h1>
             <p class="text-muted small mb-0 font-weight-medium" style="font-size: 0.85rem; letter-spacing: 0.2px;">Add, modify, and monitor items inside Simeon Cafe pricing loops</p>
+    
         </div>
-        <div>
-            <button type="button" onclick="document.getElementById('createModal').classList.remove('hidden')" class="btn text-white px-4 py-2.5 shadow-sm font-weight-bold d-flex align-items-center gap-2 transition-all hover-brightness" style="background-color: #1d110b; border-radius: 10px; font-weight: 700; border: none;">
-                <i class="fas fa-plus"></i> Add New Product
-            </button>
-        </div>
+        <a href="{{ route('admin.products.create') }}" 
+   class="btn text-white px-4 py-2.5 shadow-sm font-weight-bold d-flex align-items-center gap-2" 
+   style="background-color: #1d110b; border-radius: 10px; text-decoration: none;">
+    <i class="fas fa-plus"></i> Add New Product
+</a>
     </div>
 
     <div class="row g-3 mb-4">
