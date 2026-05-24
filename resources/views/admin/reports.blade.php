@@ -74,8 +74,8 @@
                         <tr class="hover:bg-stone-50/60 transition">
                             <td class="px-6 py-3.5 font-bold text-stone-900">#{{ $order->id }}</td>
                             <td class="px-6 py-3.5 text-xs text-stone-400">
-                                {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
-                            </td>
+    {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
+</td>
                             <td class="px-6 py-3.5 text-right font-bold text-stone-900">
                                 ₱{{ number_format($order->total_price, 2) }}
                             </td>
@@ -92,8 +92,7 @@
     </div>
 </div>
 <div class="p-4 bg-gray-200">
-    Labels: {{ json_encode($weeklyLabels) }} <br>
-    Values: {{ json_encode($weeklySalesValues) }}
+  
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
