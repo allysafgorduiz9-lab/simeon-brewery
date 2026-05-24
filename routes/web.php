@@ -62,7 +62,7 @@ Route::post('/admin/order/update/{id}', [AdminController::class, 'updateOrder'])
 Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products.index');
 
 // Your other routes:
-Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+//Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
 Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
 Route::patch('/admin/products/{id}/update-status', [ProductController::class, 'updateStatus'])->name('admin.products.update-status');
 // Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
@@ -143,3 +143,6 @@ Route::post('/admin/product/update/{id}', [App\Http\Controllers\ProductControlle
 
 Route::put('/admin/products/{id}', [App\Http\Controllers\ProductController::class, 'update'])
      ->name('admin.products.update');
+
+
+     Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
