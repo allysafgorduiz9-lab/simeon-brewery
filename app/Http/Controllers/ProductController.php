@@ -43,29 +43,24 @@ public function create()
 
 public function store(Request $request)
 {
-    // 1. Validate
+    // 🚀 Ensure category_id is validated and received from your form dropdown selection
     $request->validate([
         'name' => 'required',
         'price' => 'required|numeric',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB limit
+        'category_id' => 'required|integer', // 👈 Captures the numerical choice option
     ]);
 
-    // 2. Prepare data
-    $data = $request->except('image');
+    // Save the new product details into the database
+    \App\Models\Product::create([
+        'name' => $request->name,
+        'price' => $request->price,
+        //'description' => $request->description,
+        'category_id' => $request->category_id, // 👈 Saves the chosen category relation ID
+        'stock' => $request->has('stock') ? 1 : 0,
+    ]);
 
-    // 3. Handle File Upload
-    if ($request->hasFile('image')) {
-        // This stores the image in 'storage/app/public/products'
-        $path = $request->file('image')->store('products', 'public');
-        $data['image'] = $path;
-    }
-
-    // 4. Save to DB
-    \App\Models\Product::create($data);
-
-    return redirect()->route('admin.products.index')->with('success', 'Product added!');
+    return redirect()->back()->with('success', 'Product updated successfully!');
 }
-
 public function update(Request $request, $id)
 {
     $product = Product::findOrFail($id);

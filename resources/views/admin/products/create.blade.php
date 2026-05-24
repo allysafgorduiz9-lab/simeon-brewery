@@ -89,15 +89,10 @@
                         Cancel
                     </a>
                     
-                    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <input type="file" name="image" accept="image/*">
-
                     <button type="submit" class="btn text-white font-weight-bold px-4 d-inline-flex align-items-center justify-content-center transition-all hover-brightness" 
                             style="font-size: 0.85rem; border-radius: 8px; font-weight: 700; background-color: #1d110b; border: none; width: 140px; height: 40px;">
                         <i class="fas fa-save me-1.5 small"></i>Save Product
                     </button>
-                    </form>
                 </div>
 
             </form>
