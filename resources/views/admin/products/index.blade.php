@@ -58,7 +58,11 @@
                         <img src="{{ asset('storage/' . $product->image) }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 10px;">
                     </td>
                     <td class="font-weight-bold">{{ $product->name }}</td>
-                    <td>{{ is_object($product->category) ? $product->category->name : 'Beverages' }}</td>
+                    <td>
+    <span class="badge bg-light text-dark border">
+        {{ $product->category ? $product->category->name : 'Uncategorized' }}
+    </span>
+</td>
                     <td class="font-weight-black">₱{{ number_format($product->price ?? 0, 2) }}</td>
                     <td class="text-center">
                         <form action="{{ route('admin.products.update-status', $product->id) }}" method="POST">

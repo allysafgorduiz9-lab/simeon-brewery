@@ -19,15 +19,14 @@ class ProductController extends Controller
 }
 
   
-    public function index()
-    {
-        // 1. Fetch all products from your database table
-        $products = Product::all(); 
-        $categories = \App\Models\Category::all();
-
-        // 2. Pass the $products variable down to your blade view
-       return view('admin.products.index', compact('products', 'categories'));
-    }
+    public function index() 
+{
+    // Use ->with('category') to load the data efficiently
+    $products = Product::with('category')->get(); 
+    $categories = Category::all(); 
+    
+    return view('admin.products.index', compact('products', 'categories'));
+}
     /**
  * Show the form for creating a new product.
  */
