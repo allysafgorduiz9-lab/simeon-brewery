@@ -64,13 +64,19 @@ public function store(Request $request)
 public function update(Request $request, $id)
 {
     $product = Product::findOrFail($id);
+
+    // Validate the request to ensure category_id is present
+    $request->validate([
+        'name' => 'required|string',
+        'price' => 'required|numeric',
+        'category_id' => 'required|exists:categories,id', // Important: Ensures it's not null
+    ]);
     
-    // Your logic here
+    // Assign the values from the request
     $product->name = $request->name;
     $product->price = $request->price;
-    $product->category_id = $request->category_id;
+    $product->category_id = $request->category_id; // <--- Make sure this line exists!
     
-    // Image handling
     if ($request->hasFile('image')) {
         $path = $request->file('image')->store('products', 'public');
         $product->image = $path;
@@ -80,7 +86,7 @@ public function update(Request $request, $id)
     
     return redirect()->back()->with('success', 'Product updated successfully!');
 }
-/**
+/*
  * Emergency Fallback: If the application forces a redirect,
  * safely pass data back to the view workspace instead of crashing.
  */

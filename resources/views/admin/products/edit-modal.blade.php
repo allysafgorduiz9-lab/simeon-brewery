@@ -34,11 +34,11 @@
                     </div>
                     <div class="col-md-6">
                         <label class="small fw-bold text-muted mb-1">Category</label>
-                        <select name="category_id" id="edit_category" class="form-select form-select-sm py-2">
-                            @foreach($categories ?? [] as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
+                       <select name="category_id" id="edit_category" class="form-select form-select-sm py-2">
+    @foreach($categories ?? [] as $category)
+        <option value="{{ $category->id }}">{{ $category->name }}</option>
+    @endforeach
+</select>
                     </div>
                     <div class="col-md-6">
                         <label class="small fw-bold text-muted mb-1">Price (₱)</label>
