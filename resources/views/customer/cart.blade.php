@@ -134,14 +134,14 @@
     <div id="gcash-info" class="payment-info hidden">
         <div class="flex flex-col items-center">
             <img src="{{ asset('storage/payments/Gcash.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-            <p class="text-xs font-bold text-blue-800 mt-3">GCash Number: 0912 345 6789</p>
+            <p class="text-xs font-bold text-blue-800 mt-3">GCash Number: 0912 544 9746</p>
         </div>
     </div>
     
     <div id="paymaya-info" class="payment-info hidden">
         <div class="flex flex-col items-center">
             <img src="{{ asset('storage/payments/Maya.jpg') }}" class="w-40 h-40 object-cover rounded-lg border shadow-sm">
-            <p class="text-xs font-bold text-green-800 mt-3">Maya Number: 0998 765 4321</p>
+            <p class="text-xs font-bold text-green-800 mt-3">Maya Number: 0912 544 9746</p>
         </div>
     </div>
 
@@ -149,8 +149,6 @@
         <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">Enter Reference No. (Required)</label>
         <input type="text" name="reference_number" id="reference_number" placeholder="Enter reference number here" class="w-full text-sm bg-white border border-stone-300 rounded-lg p-3 z-50 relative focus:ring-2 focus:ring-amber-500/20">
     </div>
-</div>
-</div>
                             </div>
                         </div>
 
