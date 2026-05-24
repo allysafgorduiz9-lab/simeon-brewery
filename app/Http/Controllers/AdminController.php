@@ -58,63 +58,46 @@ class AdminController extends Controller
     }
 
    public function reports()
-    {
-        // 1. Basic Metrics & Category Counts
-        $totalSales = DB::table('orders')->where('status', 'completed')->sum('total_price') ?? 0.00;
-        $totalOrders = DB::table('orders')->count() ?? 0;
-        $avgOrderValue = $totalOrders > 0 ? ($totalSales / $totalOrders) : 0.00;
-        $activeProductsCount = \App\Models\Product::count();
+{
+    // 1. Get ALL orders from the last 7 days to ensure consistency
+    $startDate = \Carbon\Carbon::now()->subDays(6)->startOfDay();
+    $orders = \App\Models\Order::where('created_at', '>=', $startDate)
+                ->orderBy('created_at', 'DESC')
+                ->get();
 
-        $categoryData = \App\Models\Category::withCount('products')->get();
-        $chartLabels = $categoryData->pluck('name')->toArray();
-        $chartCounts = $categoryData->pluck('products_count')->toArray();
+    // 2. Prepare Data for Audit Log (Table)
+    $recentOrders = $orders->take(10); // Or paginate if needed
 
-        // 2. 🗓️ LOCK TIME MATRIX: Fixed Monday to Saturday for the Current Week
-        $startOfWeek = Carbon::now()->startOfWeek(Carbon::MONDAY); // Get Monday of this week
-        $endOfWeek = $startOfWeek->copy()->addDays(5)->endOfDay(); // Get Saturday of this week
-
-        // Get sales records grouped by date for this specific week range
-        $salesData = DB::table('orders')
-            ->where('status', 'completed')
-            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('SUM(total_price) as total')
-            )
-            ->groupBy('date')
-            ->get();
-
-        $weeklyLabels = [];
-        $weeklySalesValues = [];
-
-        // Build the loop array mapping exactly 6 steps from Monday to Saturday
-        for ($i = 0; $i < 6; $i++) {
-            $currentDay = $startOfWeek->copy()->addDays($i);
-            $dateString = $currentDay->format('Y-m-d');
-            
-            // 🛠️ FORMAT: "Day Name (Month Day)" -> e.g., "Mon (May 18)"
-            $weeklyLabels[] = $currentDay->format('D (M d)');
-            
-            // Find if this date exists in our database query collection
-            $matchingRecord = $salesData->firstWhere('date', $dateString);
-            $weeklySalesValues[] = $matchingRecord ? (float)$matchingRecord->total : 0.00;
-        }
-
-        // 3. Recent Audit Orders
-        $recentOrders = DB::table('orders')->orderBy('created_at', 'DESC')->limit(5)->get();
-
-        return view('admin.reports', compact(
-            'totalSales', 
-            'totalOrders', 
-            'avgOrderValue', 
-            'activeProductsCount',
-            'chartLabels',
-            'chartCounts',
-            'weeklyLabels',        // 👈 Now holds "Mon (May 18)" to "Sat (May 23)"
-            'weeklySalesValues',   // 👈 Now holds corresponding gross numbers
-            'recentOrders'
-        ));
+    // 3. Prepare Data for Chart (Group by Date)
+    // We create a map of the last 7 days to ensure dates with 0 sales still show
+    $chartData = collect();
+    for ($i = 6; $i >= 0; $i--) {
+        $date = \Carbon\Carbon::now()->subDays($i)->format('M d');
+        $chartData->put($date, 0);
     }
+
+    // Fill the map with actual sales
+    foreach ($orders as $order) {
+        $date = \Carbon\Carbon::parse($order->created_at)->format('M d');
+        if ($chartData->has($date)) {
+            $chartData[$date] += $order->total_price;
+        }
+    }
+
+    $weeklyLabels = $chartData->keys()->toArray();
+    $weeklySalesValues = $chartData->values()->toArray();
+
+    // Summary Calculations
+    $totalSales = $orders->sum('total_price');
+    $totalOrders = $orders->count();
+    $avgOrderValue = $totalOrders > 0 ? $totalSales / $totalOrders : 0;
+    $activeProductsCount = \App\Models\Product::where('stock', '>', 0)->count();
+
+    return view('admin.reports', compact(
+        'recentOrders', 'weeklyLabels', 'weeklySalesValues', 
+        'totalSales', 'totalOrders', 'avgOrderValue', 'activeProductsCount'
+    ));
+}
 
     /**
  * Toggle the manual store open/closed status
