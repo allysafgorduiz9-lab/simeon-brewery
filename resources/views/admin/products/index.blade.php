@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h3 mb-1 text-gray-900 font-weight-black" style="font-weight: 800; letter-spacing: -0.75px;">Manage Menu</h1>
-            <p class="text-muted small mb-0 font-weight-medium" style="font-size: 0.85rem; letter-spacing: 0.2px;">Add, modify, and monitor items inside Simeon Cafe pricing loops</p>
+            
     
         </div>
         <a href="{{ route('admin.products.create') }}" 
