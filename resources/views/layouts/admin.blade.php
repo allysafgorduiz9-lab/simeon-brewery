@@ -99,11 +99,6 @@
                 📈 <span>Reports</span>
             </a>
 
-            <div class="border-t border-coffee-800 pt-3 mt-3">
-        <a href="/admin/settings"
-           class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-coffee-800">
-            ⚙️ <span>Settings</span>
-        </a>
         
         <form action="{{ route('logout') }}" method="POST">
             @csrf
