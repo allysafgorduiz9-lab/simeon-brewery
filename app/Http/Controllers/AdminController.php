@@ -117,4 +117,10 @@ class AdminController extends Controller
 
         return back()->with('success', "Store status manually changed to " . strtoupper($newStatus) . "!");
     }
+
+    public function checkNewOrders() 
+{
+    $count = \App\Models\Order::count();
+    return response()->json(['count' => $count]);
+}
 }
