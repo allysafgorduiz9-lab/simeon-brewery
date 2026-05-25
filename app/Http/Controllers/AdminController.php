@@ -118,4 +118,6 @@ public function toggleStoreStatus(Request $request)
 
     return back()->with('success', "Store status manually changed to " . strtoupper($newStatus) . "!");
 }
+
+
 }
