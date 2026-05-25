@@ -47,5 +47,29 @@
             @endforeach
         </tbody>
     </table>
+    <script>
+    // 1. Initial count when the page loads
+    let lastOrderCount = {{ \App\Models\Order::count() }};
+    const audio = new Audio("{{ asset('sounds/new-order.mp3') }}");
+
+    // 2. Poll the server every 15 seconds
+    setInterval(function() {
+        fetch('/admin/check-new-orders')
+            .then(response => response.json())
+            .then(data => {
+                if (data.count > lastOrderCount) {
+                    // Play sound
+                    audio.play().catch(e => console.log("Audio play blocked: interaction required"));
+                    
+                    // Alert the owner
+                    alert("New order received!");
+                    
+                    // Update the count and refresh page
+                    lastOrderCount = data.count;
+                    location.reload(); 
+                }
+            });
+    }, 15000); 
+</script>
 </div>
 @endsection
