@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
             <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm flex items-center justify-between">
                 <div>
                     <span class="text-[11px] font-bold uppercase tracking-wider text-stone-400 block mb-1">Gross Revenue</span>
@@ -47,6 +47,16 @@
                 </div>
                 <div class="w-10 h-10 rounded-lg bg-stone-100 flex items-center justify-center text-lg shadow-inner">☕</div>
             </div>
+            <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-stone-400 block mb-1">Top Item Sold</span>
+                    <h3 class="text-lg font-black text-stone-900 truncate" title="{{ $mostBoughtProduct->product_name ?? 'N/A' }}">
+                        {{ $mostBoughtProduct->product_name ?? 'N/A' }}
+                    </h3>
+                    <p class="text-[10px] text-amber-700 font-bold uppercase">{{ $mostBoughtProduct->count ?? 0 }} sales</p>
+                </div>
+                <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-lg shadow-inner">🏆</div>
+            </div>
         </div>
 
         <div class="bg-white p-5 rounded-xl border border-stone-200 shadow-sm mb-8">
@@ -74,8 +84,8 @@
                         <tr class="hover:bg-stone-50/60 transition">
                             <td class="px-6 py-3.5 font-bold text-stone-900">#{{ $order->id }}</td>
                             <td class="px-6 py-3.5 text-xs text-stone-400">
-    {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
-</td>
+                                {{ \Carbon\Carbon::parse($order->created_at)->format('M d, Y') }}
+                            </td>
                             <td class="px-6 py-3.5 text-right font-bold text-stone-900">
                                 ₱{{ number_format($order->total_price, 2) }}
                             </td>
@@ -92,7 +102,7 @@
     </div>
 </div>
 <div class="p-4 bg-gray-200">
-  
+ 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
