@@ -28,7 +28,13 @@ Route::post('/checkout', [FrontEndController::class, 'placeOrder'])->name('place
 // Login
 Route::get('/admin', [AdminController::class, 'login'])->name('admin.login');
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminController::class, 'loginSubmit']);
+
+// 2. Route to process the form submission (THIS IS WHAT FIXES THE ERROR)
+Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admin.login.submit');
+
+Route::get('/admin', function () {
+    return redirect('/admin/dashboard');
+});
 
 // Dashboard
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
