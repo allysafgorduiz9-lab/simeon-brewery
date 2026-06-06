@@ -3,74 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Simeon Brewers</title>
+    <title>Simeon Brewers - Admin Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        coffee: { 100: '#f5f5dc', 700: '#6f4e37', 800: '#3b2f2f', 900: '#231a1a' }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body {
-            background: linear-gradient(135deg, #3b2f2f 0%, #231a1a 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #0f172a; /* Midnight Background */
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(16, 185, 129, 0.2); /* Emerald Border */
         }
     </style>
 </head>
-<body>
+<body class="flex items-center justify-center min-h-screen text-gray-100">
 
-    <!-- Login Box -->
-    <div class="bg-white rounded-xl shadow-2xl overflow-hidden max-w-md w-full">
-        <!-- Header -->
-        <div class="bg-coffee-900 text-center py-8 px-6">
-            <div class="text-4xl mb-2">☕</div>
-            <h1 class="text-2xl font-bold text-white">Simeon Brewers</h1>
-            <p class="text-coffee-300 text-sm">Staff Administration</p>
+    <div class="glass-card w-full max-w-md p-8 rounded-3xl shadow-2xl">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-black text-emerald-400 tracking-tight">SIMEON BREWERS</h2>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Administration Portal</p>
         </div>
 
-        <!-- Form -->
-        <div class="p-8">
-    @if(session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {{ session('error') }}
-        </div>
-    @endif
+        @if(session('error'))
+            <div class="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl text-sm mb-6">
+                {{ session('error') }}
+            </div>
+        @endif
 
-<form action="/admin/login" method="POST">
-        @csrf
-        
-        <div class="mb-6">
-            <label class="block text-sm font-bold text-gray-700 mb-2">Username</label>
-            <input type="text" name="username" placeholder="admin" 
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-coffee-700 focus:border-transparent transition">
-        </div>
+        <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-6">
+            @csrf
+            
+            <div>
+                <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Username / Email</label>
+                <input type="text" name="email" placeholder="admin@simeon.com" required
+                    class="w-full bg-slate-900/80 border border-emerald-900/50 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500 transition">
+            </div>
 
-        <div class="mb-6">
-            <label class="block text-sm font-bold text-gray-700 mb-2">Password</label>
-            <input type="password" name="password" placeholder="simeon123" 
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-coffee-700 focus:border-transparent transition">
-        </div>
+            <div>
+                <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Password</label>
+                <input type="password" name="password" placeholder="••••••••" required
+                    class="w-full bg-slate-900/80 border border-emerald-900/50 rounded-xl p-3 text-white focus:outline-none focus:border-emerald-500 transition">
+            </div>
 
-        <button type="submit" class="w-full bg-coffee-800 hover:bg-coffee-900 text-white font-bold py-3 rounded-lg transition transform hover:scale-105 shadow-lg">
-            Login
-        </button>
-    </form>
-
-    <div class="mt-6 text-center">
-        <a href="/" class="text-sm text-coffee-700 hover:text-coffee-900 underline">
-            ← Back to Website
-        </a>
+            <button type="submit" 
+                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-xl text-lg transition-all shadow-lg shadow-emerald-900/40">
+                ENTER DASHBOARD
+            </button>
+        </form>
     </div>
-</div>
 
 </body>
 </html>

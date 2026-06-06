@@ -29,11 +29,12 @@ Route::post('/checkout', [FrontEndController::class, 'placeOrder'])->name('place
 Route::get('/admin', [AdminController::class, 'login'])->name('admin.login');
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 
-// 2. Route to process the form submission (THIS IS WHAT FIXES THE ERROR)
+// 2. The Login Form Submission (POST)
 Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admin.login.submit');
 
+// 3. Direct Landing Bypasses
 Route::get('/admin', function () {
-    return redirect('/admin/dashboard');
+    return redirect()->route('admin.login');
 });
 
 // Dashboard
