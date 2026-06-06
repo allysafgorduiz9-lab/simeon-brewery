@@ -27,7 +27,8 @@ Route::post('/checkout', [FrontEndController::class, 'placeOrder'])->name('place
 
 // Login
 Route::get('/admin', [AdminController::class, 'login'])->name('admin.login');
-Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admin.login.submit');
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'loginSubmit']);
 
 // Dashboard
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
