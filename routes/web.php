@@ -152,3 +152,5 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/'); // Redirects to home after logout
 })->name('logout');
+
+Route::get('/admin/check-new-orders', [\App\Http\Controllers\AdminController::class, 'checkNewOrders']);

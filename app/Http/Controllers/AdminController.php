@@ -50,6 +50,37 @@ class AdminController extends Controller
         return view('admin.login');
     }
 
+    public function loginSubmit(Request $request)
+    {
+        // Validate the form data
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        // Attempt to log the admin in
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // Redirect to the admin dashboard upon success
+            return redirect()->route('dashboard'); 
+        }
+
+        // If login fails, redirect back with an error message
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    // 3. Handle Admin Logout
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
+
     /**
      * Management Analytics & Reports
      */
