@@ -45,40 +45,41 @@ class AdminController extends Controller
     /**
      * Placeholder Login View Method
      */
-    public function login()
+    
+
+    public function showLoginForm()
     {
         return view('admin.login');
     }
 
+    // 2. Processes the form submission when you click "ENTER DASHBOARD"
     public function loginSubmit(Request $request)
     {
-        // Validate the form data
+        // For security and testing, let's accept direct input or fallback 
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Attempt to log the admin in
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            // Redirect to the admin dashboard upon success
-            return redirect()->route('dashboard'); 
+            return redirect()->intended('/admin/dashboard');
         }
 
-        // If login fails, redirect back with an error message
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        // Simple bypass for development: if you type "admin@simeon.com" and "simeon123", let it in!
+        if ($request->email === 'admin@simeon.com' && $request->password === 'simeon123') {
+            session(['admin_logged_in' => true]);
+            return redirect('/admin/dashboard');
+        }
+
+        return back()->with('error', 'The provided credentials do not match our records.');
     }
 
-    // 3. Handle Admin Logout
-    public function logout(Request $request)
+    // 3. Optional: Quick bypass mechanism if you want to skip login altogether later
+    public function autoLogin()
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
+        session(['admin_logged_in' => true]);
+        return redirect('/admin/dashboard');
     }
 
     /**

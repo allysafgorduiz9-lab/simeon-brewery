@@ -28,11 +28,12 @@ Route::post('/checkout', [FrontEndController::class, 'placeOrder'])->name('place
 // Login
 Route::get('/admin', [AdminController::class, 'login'])->name('admin.login');
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-
-// 2. The Login Form Submission (POST)
 Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admin.login.submit');
 
-// 3. Direct Landing Bypasses
+// Dashboard route (Handles displaying the sales data)
+Route::get('/admin/dashboard', [OrderController::class, 'dashboard'])->name('dashboard');
+
+// Automatic redirect if you just type /admin
 Route::get('/admin', function () {
     return redirect()->route('admin.login');
 });
